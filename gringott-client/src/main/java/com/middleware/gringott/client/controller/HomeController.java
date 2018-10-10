@@ -38,4 +38,14 @@ public class HomeController {
             log.info("RemoteException {}", e.getMessage());
         }
     }
+
+    @PostMapping("/login")
+    public void login(@RequestBody String name){
+        try {
+            this.client.setPseudo(name);
+            this.client.getServer().registerClient(this.client);
+        } catch (RemoteException e) {
+            log.info("RemoteException {}", e.getMessage());
+        }
+    }
 }
