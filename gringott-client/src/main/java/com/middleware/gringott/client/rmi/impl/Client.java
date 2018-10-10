@@ -1,5 +1,6 @@
 package com.middleware.gringott.client.rmi.impl;
 
+import com.middleware.gringott.client.controller.SoketController;
 import com.middleware.gringott.client.rmi.services.ServerService;
 import com.middleware.gringott.shared.interfaces.IClient;
 import com.middleware.gringott.shared.interfaces.IServer;
@@ -25,6 +26,10 @@ public class Client extends UnicastRemoteObject implements IClient {
     @Autowired
     private ServerService server;
 
+    @Autowired
+    private SoketController soketController;
+
+
 
 
     public Client() throws RemoteException {
@@ -49,6 +54,7 @@ public class Client extends UnicastRemoteObject implements IClient {
             System.out.println("Nouvel item ajouté : " + item.getName());
             this.items.add(item);
         }
+        this.soketController.onReciveMessage(items);
     }
 
     @Override
@@ -68,17 +74,9 @@ public class Client extends UnicastRemoteObject implements IClient {
                 i.setSold(item.isSold());
             }
         }
+        this.soketController.onReciveMessage(items);
     }
 
-    @Override
-    public void endSelling(Item item) throws RemoteException {
-        for (Item i : items){
-            if (i.getName().equals(item.getName())){
-                System.out.println("Fin de la vente : " + i.getName());
-                i.setSold(true);
-            }
-        }
-    }
 
     @Override
     public String getPseudo() throws RemoteException {

@@ -33,6 +33,7 @@ public class HomeController {
     @ResponseBody
     public void sell(@RequestBody SellableItem sellableItem){
         try {
+            sellableItem.setSeller(this.client.getPseudo());
             this.client.submitItem(sellableItem);
         } catch (RemoteException e) {
             log.info("RemoteException {}", e.getMessage());
@@ -40,6 +41,7 @@ public class HomeController {
     }
 
     @PostMapping("/login")
+    @ResponseBody
     public void login(@RequestBody String name){
         try {
             this.client.setPseudo(name);

@@ -26,11 +26,6 @@
 
     <dependencies>
 
-        <dependency>
-            <groupId>com.middleware.gringott</groupId>
-            <artifactId>gringott</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 
 
