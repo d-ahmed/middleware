@@ -5,8 +5,11 @@
     <br>
 
     <form>
-        <input type="text" placeholder="Pseudo" ng-model="login.pseudo">
-        <button ng-click="addPseudo()">Sign in</button>
+        <md-input-container>
+            <label>Pseudo</label>
+            <input ng-model="login.pseudo">
+        </md-input-container>
+        <md-button ng-click="addPseudo()" class="md-raised">Sign in</md-button>
         {{login.pseudo}}
     </form>
 </div>

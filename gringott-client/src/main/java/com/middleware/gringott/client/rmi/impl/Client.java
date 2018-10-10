@@ -74,6 +74,7 @@ public class Client extends UnicastRemoteObject implements IClient {
                 i.setSold(item.isSold());
             }
         }
+        log.info("Item mis à jour {}", item);
         this.soketController.onReciveMessage(items);
     }
 

@@ -55,7 +55,11 @@ app.factory('AuthService', function($http){
     }
 });
 
-app.controller('hommeCtrl', function($scope){
+app.controller('hommeCtrl', function($scope, enchereService){
+
+    enchereService.receive().then(null, null, function(message) {
+        console.log(message);
+    });
 
 })
 

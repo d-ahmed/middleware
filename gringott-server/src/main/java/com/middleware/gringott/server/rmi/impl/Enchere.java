@@ -18,19 +18,17 @@ public class Enchere extends TimerTask {
 
 
 
-    public Enchere(Item item, ISoldObservable observable){
+    public Enchere(long time, ISoldObservable observable){
         this.item = item;
         this.isSold = false;
         this.observable = observable;
         final Timer timer = new Timer();
-        this.timer.schedule(this, item.getTime()*60*1000);
+        this.timer.schedule(this, time*60*1000);
     }
 
     @Override
     public void run() {
-        log.info("The item {} is sold", this.item.getName());
         this.observable.update();
-        setSold(true);
         timer.cancel();
     }
 }
