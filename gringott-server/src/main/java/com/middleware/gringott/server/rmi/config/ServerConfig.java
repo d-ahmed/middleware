@@ -1,6 +1,6 @@
 package com.middleware.gringott.server.rmi.config;
 
-import com.middleware.gringott.server.data.entities.SellableItem;
+import com.middleware.gringott.shared.impl.SellableItem;
 import com.middleware.gringott.server.rmi.impl.Enchere;
 import com.middleware.gringott.shared.interfaces.ISoldObservable;
 import lombok.extern.slf4j.Slf4j;
@@ -11,39 +11,28 @@ import com.middleware.gringott.shared.interfaces.IServer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 @Configuration
 @Slf4j
 public class ServerConfig {
 
-    @Value("${rmi.host}")
-    String host;
 
     @Bean
     public RmiServiceExporter rmiServiceExporter(ApplicationContext context){
 
-        new Enchere(
-            new SellableItem("un oeuf", "une description", 22, "dada", 1),
-            new ISoldObservable() {
-                @Override
-                public void update() {
-                    log.info("une mise à jour des clients est requis");
-                }
-            });
+        String adress = null;
+        try {
+            adress = InetAddress.getLocalHost().getHostAddress();
+            log.info("RMI host adress : {}", adress);
+        } catch (UnknownHostException e) {
+            log.info("UnknownHostException {}", e.getMessage());
+        }
 
-        new Enchere(new SellableItem("un bateau", "une description", 22, "dada", 2),
-            new ISoldObservable() {
-                @Override
-                public void update() {
-                    log.info("une mise à jour des clients est requis");
-                }
-            });
-
-
-
-        System.setProperty("java.rmi.server.hostname", this.host);
+        System.setProperty("java.rmi.server.hostname", adress);
 
         RmiServiceExporter exporter = new RmiServiceExporter();
-
         exporter.setService(context.getBean("rmiEnchereService"));
         exporter.setRegistryPort(1099);
         exporter.setServiceName("enchere");

@@ -1,0 +1,10 @@
+<div ng-controller="sellCtrl">
+
+    Name: <input type="text" ng-model="item.name"><br>
+    Description: <input type="text" ng-model="item.description"><br>
+    Price: <input type="text" ng-model="item.price"><br>
+    Time: <input type="text" ng-model="item.time"><br>
+    <button ng-click="sell()">sell</button>
+    <br>
+    {{item.name + " " + item.price}}
+</div>

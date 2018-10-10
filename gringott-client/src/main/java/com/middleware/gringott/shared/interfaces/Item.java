@@ -58,7 +58,7 @@ public interface Item extends Serializable {
      * Set the end  date of the Item.
      * @return the date
      */
-    LocalDateTime getTime();
+    long getTime();
 
     /**
      * Set the seller of the Item.

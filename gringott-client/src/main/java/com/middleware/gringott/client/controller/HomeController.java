@@ -1,15 +1,19 @@
 package com.middleware.gringott.client.controller;
 
+import com.middleware.gringott.shared.exception.ClientNotFoundException;
+import com.middleware.gringott.shared.impl.SellableItem;
 import com.middleware.gringott.client.rmi.impl.Client;
+import com.middleware.gringott.shared.interfaces.Item;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.rmi.RemoteException;
 
 @Controller
+@Slf4j
 public class HomeController {
 
     @Autowired
@@ -23,5 +27,15 @@ public class HomeController {
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) throws RemoteException {
         model.addAttribute("name", this.client.getPseudo());
         return "index";
+    }
+
+    @PostMapping("/sell")
+    @ResponseBody
+    public void sell(@RequestBody SellableItem sellableItem){
+        try {
+            this.client.submitItem(sellableItem);
+        } catch (RemoteException e) {
+            log.info("RemoteException {}", e.getMessage());
+        }
     }
 }

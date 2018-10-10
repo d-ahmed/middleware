@@ -1,6 +1,7 @@
-package com.middleware.gringott.server.data.entities;
+package com.middleware.gringott.shared.impl;
 
 import com.middleware.gringott.shared.interfaces.Item;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.GenericGenerator;
@@ -15,6 +16,7 @@ import java.util.TimerTask;
 
 @NoArgsConstructor
 @Slf4j
+@Data
 public class SellableItem implements Item {
 
     private static final long serialVersionUID = -4517882019233732317L;

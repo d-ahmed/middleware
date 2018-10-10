@@ -1,4 +1,4 @@
-package com.middleware.gringott.server.configs;
+package com.middleware.gringott.client.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

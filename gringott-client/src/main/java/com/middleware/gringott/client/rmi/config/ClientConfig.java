@@ -13,22 +13,15 @@ import java.rmi.RemoteException;
 @Slf4j
 public class ClientConfig {
 
-    @Value("${rmi.host}")
-    String host;
-
-
+    @Value("${rmi.host.server}")
+    private String host;
 
     @Bean
     public IClient createStubAndBind(ApplicationContext context) throws RemoteException {
 
-        System.setProperty("java.rmi.server.hostname", this.host);
-        System.out.println(this.host);
-
         IClient client = (IClient) context.getBean("rmiClient");
 
-        client.locateServer("rmi://localhost:1099/enchere");
-
-
+        client.locateServer("rmi://"+this.host+"/enchere");
 
         return client;
 

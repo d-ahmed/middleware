@@ -1,9 +1,9 @@
-package com.middleware.gringott.server.controllers;
+package com.middleware.gringott.client.controller;
 
+import com.middleware.gringott.shared.interfaces.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import com.middleware.gringott.shared.interfaces.Item;
 
 import java.util.List;
 
@@ -17,8 +17,8 @@ public class SoketController {
         this.messagingTemplate = messagingTemplate;
     }
 
+
     public void onReciveMessage(List<Item> items) {
-        // Thread.sleep(1000); // simulated delay
         this.messagingTemplate.convertAndSend("/topic/greetings", items);
     }
 }

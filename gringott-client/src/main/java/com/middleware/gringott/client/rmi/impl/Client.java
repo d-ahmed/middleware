@@ -6,7 +6,6 @@ import com.middleware.gringott.shared.interfaces.IServer;
 import com.middleware.gringott.shared.interfaces.Item;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.rmi.RemoteException;
@@ -18,8 +17,7 @@ import java.util.List;
 @Slf4j
 public class Client extends UnicastRemoteObject implements IClient {
 
-    @Value("${rmi.host}")
-    String host;
+    private String id;
 
     private String pseudo;
     private List<Item> items;
@@ -32,6 +30,11 @@ public class Client extends UnicastRemoteObject implements IClient {
     public Client() throws RemoteException {
         super();
         this.items = new ArrayList<>();
+    }
+
+
+    public void submitItem(Item item) throws RemoteException {
+        this.server.getServer().submit(item);
     }
 
     @Override
