@@ -1,4 +1,5 @@
-var app = angular.module("enchere", ["ngRoute"]);
+
+var app = angular.module("enchere", ['ngMaterial', 'ngMessages', 'ngRoute']);
 app.config(function($routeProvider) {
     $routeProvider
         .when("/", {
@@ -54,6 +55,9 @@ app.factory('AuthService', function($http){
     }
 });
 
+app.controller('hommeCtrl', function($scope){
+
+})
 
 app.controller('sellCtrl', function($scope, $http,$location) {
     $scope.item = {
