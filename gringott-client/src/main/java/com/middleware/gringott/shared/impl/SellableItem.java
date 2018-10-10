@@ -88,4 +88,20 @@ public class SellableItem implements Item {
     public Object getSeller() {
         return this.seller;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setSeller(String seller) {
+        this.seller = seller;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
 }

@@ -1,0 +1,12 @@
+<div ng-controller="Signin">
+    <span>
+        Login
+    </span>
+    <br>
+
+    <form>
+        <input type="text" placeholder="Pseudo" ng-model="login.pseudo">
+        <button ng-click="addPseudo()">Sign in</button>
+        {{login.pseudo}}
+    </form>
+</div>
