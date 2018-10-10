@@ -1,12 +1,8 @@
-<div ng-controller="Signin">
-    <span>
-        Login
-    </span>
-    <br>
-
-    <form>
-        <input type="text" placeholder="Pseudo" ng-model="login.pseudo">
-        <button ng-click="addPseudo()">Sign in</button>
-        {{login.pseudo}}
-    </form>
+<div ng-controller="Signin" style="margin: 5em auto 0 auto;text-align: center">
+    <div style="display: inline-grid">
+        <md-input-container>
+            <input type="text" placeholder="Pseudo" ng-model="login.pseudo" required>
+        </md-input-container>
+        <md-button class="md-raised md-primary" ng-click="addPseudo()">Log in</md-button>
+    </div>
 </div>

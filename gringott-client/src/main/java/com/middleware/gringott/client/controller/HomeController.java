@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -49,5 +51,17 @@ public class HomeController {
         } catch (RemoteException e) {
             log.info("RemoteException {}", e.getMessage());
         }
+    }
+
+    @GetMapping("/getMesEncheres")
+    @ResponseBody
+    public List<Item> getMesEnchers(){
+        List<Item> lesItems = new ArrayList<>();
+        try {
+            lesItems =  this.client.getServer().getItems();
+        } catch (RemoteException e) {
+            log.info("RemoteException {}", e.getMessage());
+        }
+        return lesItems;
     }
 }

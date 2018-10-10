@@ -9,55 +9,51 @@ app.config(function($routeProvider) {
             templateUrl : "views/addenchere.htm"
         })
         .when("/enchere", {
-            templateUrl : "views/encherelist.htm"
+            templateUrl : "views/encherelist.htm",
+            controller : "encheres"
         })
         .when("/enchere/my", {
-            templateUrl : "views/myenchere.htm"
+            templateUrl : "views/myenchere.htm",
+            controller : "mesEncheres"
         }).when("/sell", {
-            templateUrl : "views/sell.htm"
+            templateUrl : "views/sell.htm",
+            controller : "sellCtrl"
         }).when("/login",{
-            templateUrl : "views/login.htm"
+            templateUrl : "views/login.htm",
+            controller : "Signin"
         });
 });
 
+app.controller('homeCtrl', function($scope){
 
-
-app.factory('AuthService', function($http){
-    return {
-        authenticate : function(name){
-
-            var req = {
-                method: 'POST',
-                url: '/login',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data: name
-            }
-
-            $http(req).then(
-                function(response){
-                    console.log(response);
-                },
-                function(err){
-                    console.log(err);
-                }
-            );
-
-            /*if(isAuthenticated){
-                //If authenticated, return anything you want, probably a user object
-                // return true;
-            } else {
-                //Else send a rejection
-                // return $q.reject('Not Authenticated');
-            }*/
-        }
-    }
 });
 
-app.controller('hommeCtrl', function($scope){
 
-})
+app.controller('mesEncheres', function ($scope,$http) {
+    $scope.listEnchers = [];
+
+    $scope.getMesEncheres = function(){
+        var req = {
+            method: 'GET',
+            url:'/getMesEncheres',
+        };
+
+        $http(req).then(
+            function(response){
+                $scope.listEnchers = response.data;
+            },
+            function(err){
+                console.log(err);
+            }
+        );
+    };
+
+    var init = function () {
+        $scope.getMesEncheres();
+    }
+
+    init();
+});
 
 app.controller('sellCtrl', function($scope, $http,$location) {
     $scope.item = {
@@ -80,7 +76,7 @@ app.controller('sellCtrl', function($scope, $http,$location) {
         $http(req).then(
             function(response){
                 console.log(response);
-                $location.url("/#!/enchere");
+                $location.path("/enchere/my");
             },
             function(err){
                 console.log(err);
@@ -91,6 +87,40 @@ app.controller('sellCtrl', function($scope, $http,$location) {
 
 });
 
+app.factory('AuthService', function($http,$location){
+    return {
+        authenticate : function(name){
+
+            var req = {
+                method: 'POST',
+                url: '/login',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: name
+            }
+
+            $http(req).then(
+                function(response){
+                    console.log(response);
+                    $location.path("/sell");
+                },
+                function(err){
+                    console.log(err);
+                }
+            );
+
+            /*if(isAuthenticated){
+                //If authenticated, return anything you want, probably a user object
+                // return true;
+            } else {
+                //Else send a rejection
+                // return $q.reject('Not Authenticated');
+            }*/
+        }
+    }
+});
+
 app.controller("Signin",function ($scope, AuthService) {
     $scope.login = {
         pseudo : ''
@@ -99,5 +129,9 @@ app.controller("Signin",function ($scope, AuthService) {
     $scope.addPseudo = function () {
         AuthService.authenticate($scope.login.pseudo)
     }
+});
+
+app.controller("encheres",function ($scope) {
+
 });
 
