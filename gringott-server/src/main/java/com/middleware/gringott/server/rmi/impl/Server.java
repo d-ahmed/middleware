@@ -3,6 +3,7 @@ package com.middleware.gringott.server.rmi.impl;
 import com.middleware.gringott.shared.exception.ClientAlreadyExistExecption;
 import com.middleware.gringott.shared.exception.ClientNotFoundException;
 import com.middleware.gringott.shared.interfaces.ISoldObservable;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import com.middleware.gringott.shared.interfaces.IClient;
 import com.middleware.gringott.shared.interfaces.IServer;
@@ -16,6 +17,7 @@ import java.util.Map;
 
 
 @Component("rmiEnchereService")
+@Slf4j
 public class Server implements IServer {
 
     Map<String, IClient> clients;
@@ -80,14 +82,16 @@ public class Server implements IServer {
             System.out.println("New item registered : " + item);
             this.items.add(item);
             this.encheres.add(new Enchere(
-                    item,
+                    item.getTime(),
                     new ISoldObservable() {
                         @Override
                         public void update() {
                             for (IClient c : clients.values()) {
                                 System.out.println(c);
                                 try {
+                                    item.setSold(true);
                                     c.update(item);
+                                    log.info("Les items {}",items);
                                 } catch (RemoteException e) {
                                     clients.remove(c);
                                 }
