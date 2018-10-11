@@ -72,10 +72,10 @@ public class Client extends UnicastRemoteObject implements IClient {
     public void update(Item item) throws RemoteException {
         for (Item i : items){
             if (i.getName().equals(item.getName()) && !i.isSold()){
-                log.info("Update item : {}", i);
                 i.setPrice(item.getPrice());
                 i.setLeader(item.getLeader());
                 i.setSold(item.isSold());
+                log.info("Update item : {}", i);
             }
         }
         this.soketController.onReciveMessage(items);

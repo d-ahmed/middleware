@@ -17,6 +17,7 @@ import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -40,8 +41,7 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) throws RemoteException {
-        model.addAttribute("name", this.client.getPseudo());
+    public String index() {
         return "index";
     }
 
@@ -67,32 +67,36 @@ public class HomeController {
         }
     }
 
-    @GetMapping("/getMesEncheres")
+    @GetMapping("/encheres")
     @ResponseBody
     public List<Item> getMesEnchers(){
-        List<Item> lesItems = new ArrayList<>();
+        List<Item> items = new ArrayList<>();
         try {
-            lesItems =  this.client.getServer().getItems();
+            String name = this.client.getPseudo();
+            items = this.client.getItems()
+                    .stream()
+                    .filter(
+                            (i) -> !i.getSeller().equals(name)
+                    ).collect(Collectors.toList());
         } catch (RemoteException e) {
             log.warn("RemoteException {}", e.getMessage());
         }
-        return lesItems;
+        return items;
     }
 
-    @GetMapping("/getEncheres")
+    @GetMapping("/users/{name}/encheres")
     @ResponseBody
-    public List<Item> getEncheres(@RequestBody String name){
-        List<Item> lesItems = new ArrayList<>();
+    public List<Item> getEncheres(@PathVariable String name){
+        List<Item> items = new ArrayList<>();
         try {
-            List<Item> items = this.client.getServer().getItems();
-            for (int i=0;i < items.size();++i ){
-                if (!(items.get(i).getSeller().equals(name))){
-                    lesItems.add(items.get(i));
-                }
-            }
+            items = this.client.getItems()
+                    .stream()
+                    .filter(
+                            (i) -> i.getSeller().equals(name)
+                    ).collect(Collectors.toList());
         } catch (RemoteException e) {
             log.info("RemoteException {}", e.getMessage());
         }
-        return lesItems;
+        return items;
     }
 }

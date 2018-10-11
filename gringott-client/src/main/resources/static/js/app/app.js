@@ -29,31 +29,7 @@ app.controller('homeCtrl', function($scope){
 });
 
 
-app.controller('mesEncheres', function ($scope,$http) {
-    $scope.listEnchers = [];
 
-    $scope.getMesEncheres = function(){
-        var req = {
-            method: 'GET',
-            url:'/getMesEncheres',
-        };
-
-        $http(req).then(
-            function(response){
-                $scope.listEnchers = response.data;
-            },
-            function(err){
-                console.log(err);
-            }
-        );
-    };
-
-    var init = function () {
-        $scope.getMesEncheres();
-    }
-
-    init();
-});
 
 app.controller('sellCtrl', function($scope, $http,$location) {
     $scope.item = {
@@ -133,20 +109,45 @@ app.controller("Signin",function ($scope, AuthService) {
     }
 });
 
+app.controller('mesEncheres', function ($scope,$http) {
+    $scope.listEnchers = [];
+    $scope.name = localStorage.getItem("name");
+
+    $scope.getMesEncheres = function(name){
+        var req = {
+            method: 'GET',
+            url:`/users/${name}/encheres`,
+        };
+
+        $http(req).then(
+            function(response){
+                $scope.listEnchers = response.data;
+            },
+            function(err){
+                console.log(err);
+            }
+        );
+    };
+
+    var init = function () {
+        $scope.getMesEncheres($scope.name);
+    }
+
+    init();
+});
+
 app.controller("lesencheres",function ($scope,$http) {
 
     $scope.lesEncheres = [];
-    $scope.name = localStorage.getItem("name");
 
-    $scope.getEncheres = function (name) {
-        console.log(name);
+
+    $scope.getEncheres = function () {
         var req = {
             method: 'GET',
-            url: '/getEncheres',
+            url: 'encheres',
             headers: {
                 'Content-Type': 'application/json'
-            },
-            data : name
+            }
         };
         $http(req).then(
             function(response){
@@ -162,7 +163,7 @@ app.controller("lesencheres",function ($scope,$http) {
 
 
     var init =function() {
-        $scope.getEncheres($scope.name);
+        $scope.getEncheres();
     };
 
     init();
