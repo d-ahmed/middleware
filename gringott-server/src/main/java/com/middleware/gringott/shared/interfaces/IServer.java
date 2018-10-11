@@ -54,5 +54,4 @@ public interface IServer extends Remote {
     List<IClient> getClients() throws RemoteException;
 
 
-
 }

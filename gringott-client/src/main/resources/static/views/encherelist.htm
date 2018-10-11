@@ -1,1 +1,13 @@
-<span>listenchere</span>
+<div ng-controller="lesencheres">
+    <h1>Les encheres en cours</h1>
+    <md-list-item class="md-2-line" ng-repeat="item in lesEncheres">
+        <md-checkbox ng-model="item.done"></md-checkbox>
+        <div class="md-list-item-text">
+            <h3><b>Produit</b> : {{item.name}}</h3>
+            <h4><b>Description</b> : {{item.description}}</h4>
+            <b>Prix du article</b> : {{item.price}} euros
+            <md-button class="md-raised md-primary">Encherir</md-button>
+            <hr>
+        </div>
+    </md-list-item>
+</div>

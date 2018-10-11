@@ -1,13 +1,12 @@
 package com.middleware.gringott.client.controller;
 
-import com.middleware.gringott.shared.exception.ClientNotFoundException;
 import com.middleware.gringott.shared.impl.SellableItem;
-import com.middleware.gringott.client.rmi.impl.Client;
 import com.middleware.gringott.shared.interfaces.IClient;
 import com.middleware.gringott.shared.interfaces.Item;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -76,6 +75,23 @@ public class HomeController {
             lesItems =  this.client.getServer().getItems();
         } catch (RemoteException e) {
             log.warn("RemoteException {}", e.getMessage());
+        }
+        return lesItems;
+    }
+
+    @GetMapping("/getEncheres")
+    @ResponseBody
+    public List<Item> getEncheres(@RequestBody String name){
+        List<Item> lesItems = new ArrayList<>();
+        try {
+            List<Item> items = this.client.getServer().getItems();
+            for (int i=0;i < items.size();++i ){
+                if (!(items.get(i).getSeller().equals(name))){
+                    lesItems.add(items.get(i));
+                }
+            }
+        } catch (RemoteException e) {
+            log.info("RemoteException {}", e.getMessage());
         }
         return lesItems;
     }

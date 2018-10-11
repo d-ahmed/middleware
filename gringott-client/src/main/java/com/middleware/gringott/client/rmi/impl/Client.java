@@ -41,7 +41,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 
 
     public void submitItem(Item item) throws RemoteException {
-        //this.items.add(item);
+        this.items.add(item);
         this.server.getServer().submit(item);
     }
 
