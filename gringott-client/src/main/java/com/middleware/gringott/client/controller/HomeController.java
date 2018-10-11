@@ -53,7 +53,7 @@ public class HomeController {
             sellableItem.setSeller(this.client.getPseudo());
             this.client.getServer().submit(sellableItem);
         } catch (RemoteException e) {
-            log.info("RemoteException {}", e.getMessage());
+            log.warn("RemoteException {}", e.getMessage());
         }
     }
 
@@ -64,7 +64,7 @@ public class HomeController {
             this.client.setPseudo(name);
             this.client.getServer().registerClient(this.client);
         } catch (RemoteException e) {
-            log.info("RemoteException {}", e.getMessage());
+            log.warn("RemoteException {}", e.getMessage());
         }
     }
 
@@ -75,7 +75,7 @@ public class HomeController {
         try {
             lesItems =  this.client.getServer().getItems();
         } catch (RemoteException e) {
-            log.info("RemoteException {}", e.getMessage());
+            log.warn("RemoteException {}", e.getMessage());
         }
         return lesItems;
     }

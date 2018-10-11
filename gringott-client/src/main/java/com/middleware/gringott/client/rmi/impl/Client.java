@@ -55,7 +55,7 @@ public class Client extends UnicastRemoteObject implements IClient {
             }
         }
         if (!contains){
-            System.out.println("Nouvel item ajouté : " + item.getName());
+            log.info("New item registered : {}", item);
             this.items.add(item);
         }
         this.soketController.onReciveMessage(items);
@@ -72,13 +72,12 @@ public class Client extends UnicastRemoteObject implements IClient {
     public void update(Item item) throws RemoteException {
         for (Item i : items){
             if (i.getName().equals(item.getName()) && !i.isSold()){
-                System.out.println("Mise à jour de l'item : " + i.getName());
+                log.info("Update item : {}", i);
                 i.setPrice(item.getPrice());
                 i.setLeader(item.getLeader());
                 i.setSold(item.isSold());
             }
         }
-        log.info("Item mis à jour {}", item);
         this.soketController.onReciveMessage(items);
     }
 
@@ -109,9 +108,9 @@ public class Client extends UnicastRemoteObject implements IClient {
         try {
             if(this.getPseudo()!=null) this.server.getServer().logout(this);
         } catch (RemoteException e) {
-            log.info("There is a RemoteException problem : {}", e.getMessage());
+            log.warn("There is a RemoteException problem : {}", e.getMessage());
         } catch (ClientNotFoundException e){
-            log.info("Client already disconected");
+            log.warn("Client already disconected");
         }
     }
 

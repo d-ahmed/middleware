@@ -34,9 +34,9 @@ public class Server implements IServer {
 
     @Override
     public void registerClient(IClient client) throws RemoteException, ClientAlreadyExistExecption {
-        System.out.println("New client registered : " + client.getPseudo());
         if(clients.containsKey(client.getPseudo())) throw new ClientAlreadyExistExecption("Choose an other pseudo");
         this.clients.put(client.getPseudo(), client);
+        log.info("The client {} has been registred successfuly", client.getPseudo());
         for (Item i : items) {
             client.addNewItem(i);
         }
@@ -46,7 +46,7 @@ public class Server implements IServer {
     public void logout(IClient client) throws RemoteException, ClientNotFoundException {
         synchronized (clients){
             if(!clients.containsKey(client.getPseudo())) throw new ClientNotFoundException("No client with this pseudo");
-            log.info("Client {} is logout", client.getPseudo());
+            log.info("Client {} is logout successfuly", client.getPseudo());
             clients.remove(client.getPseudo());
         }
     }
@@ -57,8 +57,7 @@ public class Server implements IServer {
         if(!clients.containsKey(buyer)) throw new ClientNotFoundException("No client with this pseudo");
 
         double price = item.getPrice() + newPrice;
-        System.out.println("New bid from " + buyer + " recorded for " + item.getName() + " at " + price);
-
+        log.info("New bid from {} recorded for {} at {}", buyer, item.getName(), price);
         Item newItem = item;
 
         for (Item i : items) {
@@ -80,7 +79,7 @@ public class Server implements IServer {
     public void submit(Item item) throws RemoteException, ClientNotFoundException {
         synchronized (items){
             if(!clients.containsKey(item.getSeller())) throw new ClientNotFoundException("No client with this pseudo");
-            System.out.println("New item registered : " + item);
+            log.info("New item registered : {}", item);
             this.items.add(item);
             this.observers.add(new Observer(
                     item.getTime(),
@@ -94,7 +93,13 @@ public class Server implements IServer {
                                     c.update(item);
                                     log.info("Les items {}",items);
                                 } catch (RemoteException e) {
-                                    clients.remove(c);
+                                    // Par précotion
+                                    try {
+                                        log.warn("Client {} unreachable", c.getPseudo());
+                                        clients.remove(c.getPseudo());
+                                    } catch (RemoteException e1) {
+                                        log.warn("There is a RemoteException problem");
+                                    }
                                 }
                             }
                         }
