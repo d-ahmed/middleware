@@ -1,10 +1,6 @@
 package com.middleware.gringott.server.rmi.config;
 
-import com.middleware.gringott.shared.impl.SellableItem;
-import com.middleware.gringott.server.rmi.impl.Enchere;
-import com.middleware.gringott.shared.interfaces.ISoldObservable;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.remoting.rmi.RmiServiceExporter;
 import com.middleware.gringott.shared.interfaces.IServer;

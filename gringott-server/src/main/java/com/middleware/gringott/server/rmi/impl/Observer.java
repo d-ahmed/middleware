@@ -1,5 +1,5 @@
 package com.middleware.gringott.server.rmi.impl;
-import com.middleware.gringott.shared.interfaces.ISoldObservable;
+import com.middleware.gringott.shared.interfaces.IObservable;
 import com.middleware.gringott.shared.interfaces.Item;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -9,16 +9,16 @@ import java.util.TimerTask;
 
 @Slf4j
 @Data
-public class Enchere extends TimerTask {
+public class Observer extends TimerTask {
 
     private Item item;
     private boolean isSold;
-    private ISoldObservable observable;
+    private IObservable observable;
     private Timer timer = new Timer();
 
 
 
-    public Enchere(long time, ISoldObservable observable){
+    public Observer(long time, IObservable observable){
         this.item = item;
         this.isSold = false;
         this.observable = observable;

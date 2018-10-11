@@ -2,7 +2,7 @@ package com.middleware.gringott.server.rmi.impl;
 
 import com.middleware.gringott.shared.exception.ClientAlreadyExistExecption;
 import com.middleware.gringott.shared.exception.ClientNotFoundException;
-import com.middleware.gringott.shared.interfaces.ISoldObservable;
+import com.middleware.gringott.shared.interfaces.IObservable;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import com.middleware.gringott.shared.interfaces.IClient;
@@ -24,12 +24,12 @@ public class Server implements IServer {
 
     List<Item> items;
 
-    List<Enchere> encheres;
+    List<Observer> observers;
 
     public Server()  {
         this.clients = new HashMap<>();
         this.items = new ArrayList<>();
-        this.encheres = new ArrayList<>();
+        this.observers = new ArrayList<>();
     }
 
     @Override
@@ -46,6 +46,7 @@ public class Server implements IServer {
     public void logout(IClient client) throws RemoteException, ClientNotFoundException {
         synchronized (clients){
             if(!clients.containsKey(client.getPseudo())) throw new ClientNotFoundException("No client with this pseudo");
+            log.info("Client {} is logout", client.getPseudo());
             clients.remove(client.getPseudo());
         }
     }
@@ -81,9 +82,9 @@ public class Server implements IServer {
             if(!clients.containsKey(item.getSeller())) throw new ClientNotFoundException("No client with this pseudo");
             System.out.println("New item registered : " + item);
             this.items.add(item);
-            this.encheres.add(new Enchere(
+            this.observers.add(new Observer(
                     item.getTime(),
-                    new ISoldObservable() {
+                    new IObservable() {
                         @Override
                         public void update() {
                             for (IClient c : clients.values()) {
@@ -104,7 +105,6 @@ public class Server implements IServer {
                 c.addNewItem(item);
             }
 
-            // this.soketController.onReciveMessage(items);
         }
     }
 
