@@ -10,7 +10,7 @@ app.config(function($routeProvider) {
         })
         .when("/enchere", {
             templateUrl : "views/encherelist.htm",
-            controller : "encheres"
+            controller : "lesencheres"
         })
         .when("/enchere/my", {
             templateUrl : "views/myenchere.htm",
@@ -98,11 +98,13 @@ app.factory('AuthService', function($http,$location){
                     'Content-Type': 'application/json'
                 },
                 data: name
-            }
+            };
 
             $http(req).then(
                 function(response){
                     console.log(response);
+                    localStorage.setItem("name",name);
+                    console.log(localStorage.getItem("name"));
                     $location.path("/sell");
                 },
                 function(err){
@@ -131,7 +133,39 @@ app.controller("Signin",function ($scope, AuthService) {
     }
 });
 
-app.controller("encheres",function ($scope) {
+app.controller("lesencheres",function ($scope,$http) {
+
+    $scope.lesEncheres = [];
+    $scope.name = localStorage.getItem("name");
+
+    $scope.getEncheres = function (name) {
+        console.log(name);
+        var req = {
+            method: 'GET',
+            url: '/getEncheres',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data : name
+        };
+        $http(req).then(
+            function(response){
+                $scope.lesEncheres = response.data;
+            },
+            function(err){
+                console.log(err);
+            }
+        );
+
+
+    };
+
+
+    var init =function() {
+        $scope.getEncheres($scope.name);
+    };
+
+    init();
 
 });
 

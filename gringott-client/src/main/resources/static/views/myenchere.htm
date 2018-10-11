@@ -4,9 +4,11 @@
         <md-list-item class="md-2-line" ng-repeat="item in listEnchers">
             <md-checkbox ng-model="item.done"></md-checkbox>
             <div class="md-list-item-text">
-                <b>Produit</b> : <h3>{{item.name}}</h3>
-                <b>Description</b> : <h4>{{item.description}}</h4>
-                <b>Prix du article</b> : <p>{{item.price}}</p>
+                <h3><b>Produit</b> : {{item.name}}</h3>
+                <h4><b>Description</b> : {{item.description}}</h4>
+                <b>Prix du article</b> : {{item.price}} euros <br>
+                <b>Vendeur : {{item.seller}}</b>
+                <hr>
             </div>
         </md-list-item>
     </md-list>
