@@ -26,24 +26,14 @@ app.factory('enchereService', function($q, $timeout) {
         }, this.RECONNECT_TIMEOUT);
     };
 
-    var getMessage = function(data) {
-        var message = JSON.parse(data), out = {};
-        out.message = message.message;
-        out.time = new Date(message.time);
-        if (_.contains(messageIds, message.id)) {
-            out.self = true;
-            messageIds = _.remove(messageIds, message.id);
-        }
-        return out;
-    };
-
     var startListener = function() {
         socket.stomp.subscribe(service.ITEMS_TOPIC, function(data) {
-            listenerItems.notify(getMessage(data.body));
+            console.log("ITEMS_TOPIC", data)
+            listenerItems.notify(data.body);
         });
 
         socket.stomp.subscribe(service.MY_ITEMS_TOPIC, function(data) {
-            listenerMyItems.notify(getMessage(data.body));
+            listenerMyItems.notify(data.body);
         });
     };
 

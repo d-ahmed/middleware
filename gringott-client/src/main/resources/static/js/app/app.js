@@ -165,9 +165,15 @@ app.controller("lesencheres",function ($scope,$http, enchereService) {
 
     var init =function() {
         $scope.getEncheres();
-        enchereService.receiveItems().then((data)=>{
-            console.log("Dans getEncheres", data);
-        })
+        console.log("Dans getEncheres", enchereService.RECONNECT_TIMEOUT);
+        enchereService.receiveItems().then(function(greeting) {
+            console.log('Success: ' + greeting);
+        }, function(reason) {
+            console.log('Failed: ' + reason);
+        }, function(update) {
+            console.log('Got notification: ' + update);
+            $scope.lesEncheres = JSON.parse(update);
+        });
     };
 
     init();

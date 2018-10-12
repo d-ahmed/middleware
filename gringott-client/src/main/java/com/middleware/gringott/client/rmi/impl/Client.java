@@ -68,20 +68,7 @@ public class Client extends UnicastRemoteObject implements IClient {
             this.items.add(item);
         }
 
-        this.soketController.onReciveItems(
-                items.stream()
-                    .filter(
-                            (i) -> !i.getSeller().equals(pseudo) &&
-                                    !i.isSold()
-                    ).collect(Collectors.toList())
-        );
-
-        this.soketController.onReciveMyItems(
-                items.stream()
-                        .filter(
-                                (i) -> i.getSeller().equals(pseudo)
-                        ).collect(Collectors.toList())
-        );
+        this.notifySocket();
     }
 
     @Override
@@ -95,25 +82,31 @@ public class Client extends UnicastRemoteObject implements IClient {
     public void update(Item item) throws RemoteException {
         for (Item i : items){
             if (i.getId().equals(item.getId()) && !i.isSold()){
-                i.setPrice(item.getPrice());
+                i.setCurrentPrice(item.getCurrentPrice());
                 i.setLeader(item.getLeader());
                 i.setSold(item.isSold());
                 log.info("Update item : {}", i);
             }
         }
+
+        this.notifySocket();
+    }
+
+
+    private void notifySocket(){
         this.soketController.onReciveItems(
                 items.stream()
-                    .filter(
-                            (i) -> !i.getSeller().equals(pseudo) &&
-                                    !i.isSold()
-                    ).collect(Collectors.toList())
+                        .filter(
+                                (i) -> !i.getSeller().equals(pseudo) &&
+                                        !i.isSold()
+                        ).collect(Collectors.toList())
         );
 
         this.soketController.onReciveMyItems(
                 items.stream()
-                    .filter(
-                            (i) -> i.getSeller().equals(pseudo)
-                    ).collect(Collectors.toList())
+                        .filter(
+                                (i) -> i.getSeller().equals(pseudo)
+                        ).collect(Collectors.toList())
         );
     }
 
