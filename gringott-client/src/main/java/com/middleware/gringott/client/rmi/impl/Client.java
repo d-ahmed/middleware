@@ -80,16 +80,16 @@ public class Client extends UnicastRemoteObject implements IClient {
 
     @Override
     public void update(Item item) throws RemoteException {
-        for (Item i : items){
-            if (i.getId().equals(item.getId()) && !i.isSold()){
+        for (Item i : items) {
+            log.info("ids {} {}",i.getId(),item.getId());
+            if (i.getId().equals(item.getId()) && !i.isSold()) {
                 i.setCurrentPrice(item.getCurrentPrice());
                 i.setLeader(item.getLeader());
                 i.setSold(item.isSold());
                 log.info("Update item : {}", i);
+                this.notifySocket();
             }
         }
-
-        this.notifySocket();
     }
 
 

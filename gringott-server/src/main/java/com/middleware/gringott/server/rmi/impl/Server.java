@@ -56,7 +56,7 @@ public class Server implements IServer {
 
         for (Item i : items) {
             if (i.getId().equals(item.getId())){
-                if(i.getCurrentPrice() > item.getCurrentPrice()){
+                if(i.getCurrentPrice() < item.getCurrentPrice()){
                     i.setCurrentPrice(item.getCurrentPrice());
                     i.setLeader(buyer);
                     newItem = i;

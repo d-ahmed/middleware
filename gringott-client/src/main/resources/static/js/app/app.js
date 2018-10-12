@@ -109,7 +109,7 @@ app.controller("Signin",function ($scope, AuthService) {
     }
 });
 
-app.controller('mesEncheres', function ($scope,$http) {
+app.controller('mesEncheres', function ($scope,$http,enchereService) {
     $scope.listEnchers = [];
     $scope.name = localStorage.getItem("name");
 
@@ -131,7 +131,15 @@ app.controller('mesEncheres', function ($scope,$http) {
 
     var init = function () {
         $scope.getMesEncheres($scope.name);
-    }
+        enchereService.receiveMyItems().then(function(greeting) {
+            console.log('Success: ' + greeting);
+        }, function(reason) {
+            console.log('Failed: ' + reason);
+        }, function(update) {
+            console.log('Got notification: ' + update);
+            $scope.listEnchers = JSON.parse(update);
+        });
+    };
 
     init();
 });
@@ -162,6 +170,31 @@ app.controller("lesencheres",function ($scope,$http, enchereService) {
 
     };
 
+    $scope.enrichir= function(item,nombre){
+        console.log(nombre);
+        item.currentPrice = nombre;
+        console.log(item);
+        var name = localStorage.getItem("name");
+
+        var req = {
+            method : "POST",
+            url:'/users/'+name+'/bid',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: item
+
+        }
+
+        $http(req).then(
+            function (response) {
+                console.log(response)
+            },
+            function (err) {
+                console.log(err)
+            }
+        )
+    };
 
     var init =function() {
         $scope.getEncheres();

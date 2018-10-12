@@ -5,8 +5,12 @@
                 <md-card>
                     <h3><b>Produit</b> : {{item.name}}</h3>
                     <h4><b>Description</b> : {{item.description}}</h4>
-                    <b>Prix du article</b> : {{item.price}} euros
-                    <md-button class="md-raised md-primary">Encherir</md-button>
+                    <h5><b>Prix de base</b> : {{item.price}} euros</h5>
+                    <h5><b>Prix courant</b> : {{item.currentPrice}} euros</h5>
+                    <md-input-container>
+                        <input type="number" placeholder="Montant" ng-model="nombre" required>
+                    </md-input-container>
+                    <md-button class="md-raised md-primary" ng-click="enrichir(item,nombre)">Encherir</md-button>
                 </md-card>
             </div>
     </div>
