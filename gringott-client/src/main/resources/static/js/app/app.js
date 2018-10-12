@@ -136,7 +136,7 @@ app.controller('mesEncheres', function ($scope,$http) {
     init();
 });
 
-app.controller("lesencheres",function ($scope,$http) {
+app.controller("lesencheres",function ($scope,$http, enchereService) {
 
     $scope.lesEncheres = [];
 
@@ -165,6 +165,9 @@ app.controller("lesencheres",function ($scope,$http) {
 
     var init =function() {
         $scope.getEncheres();
+        enchereService.receiveItems().then((data)=>{
+            console.log("Dans getEncheres", data);
+        })
     };
 
     init();

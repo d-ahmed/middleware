@@ -8,9 +8,7 @@ import org.springframework.stereotype.Component;
 import com.middleware.gringott.shared.interfaces.IClient;
 import com.middleware.gringott.shared.interfaces.IServer;
 import com.middleware.gringott.shared.interfaces.Item;
-
 import java.rmi.RemoteException;
-import java.rmi.server.UID;
 import java.util.*;
 
 
@@ -59,7 +57,7 @@ public class Server implements IServer {
 
         for (Item i : items) {
             if (i.getId().equals(item.getId()) && i.getPrice() < item.getCurrentPrice()){
-                i.setPrice(item.getCurrentPrice());
+                i.setCurrentPrice(item.getCurrentPrice());
                 i.setLeader(buyer);
                 newItem = i;
             }
@@ -89,7 +87,6 @@ public class Server implements IServer {
                                 try {
                                     item.setSold(true);
                                     c.update(item);
-                                    log.info("Les items {}",items);
                                 } catch (RemoteException e) {
                                     // Par précotion
                                     try {

@@ -88,6 +88,7 @@ public class HomeController {
 
 
     @PostMapping("/users/{name}/bid")
+    @ResponseBody
     public void bid(@PathVariable String name, @RequestBody SellableItem item){
         try {
             this.client.getServer().bid(item, name);
