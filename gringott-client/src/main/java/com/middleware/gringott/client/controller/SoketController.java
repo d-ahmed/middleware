@@ -18,7 +18,12 @@ public class SoketController {
     }
 
 
-    public void onReciveMessage(List<Item> items) {
-        this.messagingTemplate.convertAndSend("/topic/greetings", items);
+    public void onReciveItems(List<Item> items) {
+        this.messagingTemplate.convertAndSend("/topic/items", items);
+    }
+
+
+    public void onReciveMyItems(List<Item> items) {
+        this.messagingTemplate.convertAndSend("/topic/items/my", items);
     }
 }

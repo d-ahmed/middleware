@@ -149,6 +149,7 @@ app.controller("lesencheres",function ($scope,$http) {
                 'Content-Type': 'application/json'
             }
         };
+
         $http(req).then(
             function(response){
                 $scope.lesEncheres = response.data;

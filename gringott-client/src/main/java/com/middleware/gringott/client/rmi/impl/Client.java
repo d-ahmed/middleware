@@ -15,6 +15,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component("rmiClient")
 @Slf4j
@@ -58,7 +59,21 @@ public class Client extends UnicastRemoteObject implements IClient {
             log.info("New item registered : {}", item);
             this.items.add(item);
         }
-        this.soketController.onReciveMessage(items);
+
+        this.soketController.onReciveItems(
+                items.stream()
+                    .filter(
+                            (i) -> !i.getSeller().equals(pseudo) &&
+                                    !i.isSold()
+                    ).collect(Collectors.toList())
+        );
+
+        this.soketController.onReciveMyItems(
+                items.stream()
+                        .filter(
+                                (i) -> i.getSeller().equals(pseudo)
+                        ).collect(Collectors.toList())
+        );
     }
 
     @Override
@@ -78,7 +93,20 @@ public class Client extends UnicastRemoteObject implements IClient {
                 log.info("Update item : {}", i);
             }
         }
-        this.soketController.onReciveMessage(items);
+        this.soketController.onReciveItems(
+                items.stream()
+                    .filter(
+                            (i) -> !i.getSeller().equals(pseudo) &&
+                                    !i.isSold()
+                    ).collect(Collectors.toList())
+        );
+
+        this.soketController.onReciveMyItems(
+                items.stream()
+                    .filter(
+                            (i) -> i.getSeller().equals(pseudo)
+                    ).collect(Collectors.toList())
+        );
     }
 
 

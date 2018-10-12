@@ -8,7 +8,8 @@ app.factory('enchereService', function($q, $timeout) {
 
     service.RECONNECT_TIMEOUT = 30000;
     service.SOCKET_URL = "/enchere";
-    service.CHAT_TOPIC = "/topic/greetings";
+    service.ITEMS_TOPIC = "/topic/items";
+    service.MY_ITEMS_TOPIC = "/topic/items/my";
 
     service.receive = function() {
         return listener.promise;
@@ -33,7 +34,11 @@ app.factory('enchereService', function($q, $timeout) {
     };
 
     var startListener = function() {
-        socket.stomp.subscribe(service.CHAT_TOPIC, function(data) {
+        socket.stomp.subscribe(service.ITEMS_TOPIC, function(data) {
+            listener.notify(getMessage(data.body));
+        });
+
+        socket.stomp.subscribe(service.MY_ITEMS_TOPIC, function(data) {
             listener.notify(getMessage(data.body));
         });
     };
