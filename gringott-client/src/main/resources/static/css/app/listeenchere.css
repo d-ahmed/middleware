@@ -1,0 +1,8 @@
+.items{
+  flex-wrap: wrap !important;
+}
+
+.item{
+  min-width: 20em !important;
+  max-width: 20em !important;
+}

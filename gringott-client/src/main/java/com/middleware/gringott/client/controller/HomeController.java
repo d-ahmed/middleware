@@ -69,14 +69,15 @@ public class HomeController {
 
     @GetMapping("/encheres")
     @ResponseBody
-    public List<Item> getMesEnchers(){
+    public List<Item> getEnchers(){
         List<Item> items = new ArrayList<>();
         try {
             String name = this.client.getPseudo();
             items = this.client.getItems()
                     .stream()
                     .filter(
-                            (i) -> !i.getSeller().equals(name)
+                            (i) -> !i.getSeller().equals(name) &&
+                                    !i.isSold()
                     ).collect(Collectors.toList());
         } catch (RemoteException e) {
             log.warn("RemoteException {}", e.getMessage());
@@ -86,7 +87,7 @@ public class HomeController {
 
     @GetMapping("/users/{name}/encheres")
     @ResponseBody
-    public List<Item> getEncheres(@PathVariable String name){
+    public List<Item> getMesEnchers(@PathVariable String name){
         List<Item> items = new ArrayList<>();
         try {
             items = this.client.getItems()

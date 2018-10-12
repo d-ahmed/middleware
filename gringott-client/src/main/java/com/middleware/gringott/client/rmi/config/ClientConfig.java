@@ -22,13 +22,17 @@ public class ClientConfig {
     private String host;
 
     @Bean
-    public IClient createStubAndBind(ApplicationContext context) throws RemoteException {
+    public IClient createStubAndBind(ApplicationContext context) {
 
 
 
         IClient client = (IClient) context.getBean("rmiClient");
 
-        client.locateServer("rmi://"+this.host+"/enchere");
+        try {
+            client.locateServer("rmi://"+this.host+"/enchere");
+        } catch (RemoteException e) {
+            log.error("Exception creating connection to {}", this.host);
+        }
 
         return client;
 
