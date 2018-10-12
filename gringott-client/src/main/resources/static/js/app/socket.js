@@ -28,7 +28,6 @@ app.factory('enchereService', function($q, $timeout) {
 
     var startListener = function() {
         socket.stomp.subscribe(service.ITEMS_TOPIC, function(data) {
-            console.log("ITEMS_TOPIC", data)
             listenerItems.notify(data.body);
         });
 

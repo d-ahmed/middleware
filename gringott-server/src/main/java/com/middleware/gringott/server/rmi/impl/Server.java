@@ -52,14 +52,12 @@ public class Server implements IServer {
     public void bid(Item item, String buyer) throws RemoteException, ClientNotFoundException {
 
         if(!clients.containsKey(buyer)) throw new ClientNotFoundException("No client with this pseudo");
-        Item newItem = item;
 
         for (Item i : items) {
             if (i.getId().equals(item.getId())){
-                if(i.getCurrentPrice() > item.getCurrentPrice()){
+                if(i.getCurrentPrice() < item.getCurrentPrice()){
                     i.setCurrentPrice(item.getCurrentPrice());
                     i.setLeader(buyer);
-                    newItem = i;
                     log.info("New bid from {} recorded for {} at {}", buyer, i.getName(), i.getCurrentPrice());
                     for (IClient c : clients.values()) {
                         c.update(i);

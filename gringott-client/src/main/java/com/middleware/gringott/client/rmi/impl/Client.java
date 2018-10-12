@@ -6,7 +6,6 @@ import com.middleware.gringott.shared.exception.ClientNotFoundException;
 import com.middleware.gringott.shared.interfaces.IClient;
 import com.middleware.gringott.shared.interfaces.IServer;
 import com.middleware.gringott.shared.interfaces.Item;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -81,15 +80,15 @@ public class Client extends UnicastRemoteObject implements IClient {
     @Override
     public void update(Item item) throws RemoteException {
         for (Item i : items){
+
             if (i.getId().equals(item.getId()) && !i.isSold()){
                 i.setCurrentPrice(item.getCurrentPrice());
                 i.setLeader(item.getLeader());
                 i.setSold(item.isSold());
                 log.info("Update item : {}", i);
+                this.notifySocket();
             }
         }
-
-        this.notifySocket();
     }
 
 
