@@ -56,19 +56,20 @@ public class Server implements IServer {
 
         for (Item i : items) {
             if (i.getId().equals(item.getId())){
-                if(i.getCurrentPrice() < item.getCurrentPrice()){
+                if(i.getCurrentPrice() > item.getCurrentPrice()){
                     i.setCurrentPrice(item.getCurrentPrice());
                     i.setLeader(buyer);
                     newItem = i;
                     log.info("New bid from {} recorded for {} at {}", buyer, i.getName(), i.getCurrentPrice());
+                    for (IClient c : clients.values()) {
+                        c.update(i);
+                    }
                 }
             }
         }
 
 
-        for (IClient c : clients.values()) {
-            c.update(newItem);
-        }
+
 
     }
 

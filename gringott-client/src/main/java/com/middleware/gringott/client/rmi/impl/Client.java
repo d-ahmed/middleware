@@ -97,8 +97,7 @@ public class Client extends UnicastRemoteObject implements IClient {
         this.soketController.onReciveItems(
                 items.stream()
                         .filter(
-                                (i) -> !i.getSeller().equals(pseudo) &&
-                                        !i.isSold()
+                                (i) -> !i.getSeller().equals(pseudo)
                         ).collect(Collectors.toList())
         );
 
