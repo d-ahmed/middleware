@@ -52,14 +52,16 @@ public class Server implements IServer {
     public void bid(Item item, String buyer) throws RemoteException, ClientNotFoundException {
 
         if(!clients.containsKey(buyer)) throw new ClientNotFoundException("No client with this pseudo");
-        log.info("New bid from {} recorded for {} at {}", buyer, item.getName(), item.getCurrentPrice());
         Item newItem = item;
 
         for (Item i : items) {
-            if (i.getId().equals(item.getId()) && i.getPrice() < item.getCurrentPrice()){
-                i.setCurrentPrice(item.getCurrentPrice());
-                i.setLeader(buyer);
-                newItem = i;
+            if (i.getId().equals(item.getId())){
+                if(i.getCurrentPrice() < item.getCurrentPrice()){
+                    i.setCurrentPrice(item.getCurrentPrice());
+                    i.setLeader(buyer);
+                    newItem = i;
+                    log.info("New bid from {} recorded for {} at {}", buyer, i.getName(), i.getCurrentPrice());
+                }
             }
         }
 
@@ -75,6 +77,7 @@ public class Server implements IServer {
         synchronized (items){
             if(!clients.containsKey(item.getSeller())) throw new ClientNotFoundException("No client with this pseudo");
             item.setId(UUID.randomUUID().toString());
+            item.setCurrentPrice(item.getPrice());
             log.info("New item registered : {}", item);
             this.items.add(item);
             this.observers.add(new Observer(
