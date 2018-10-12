@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PreDestroy;
+import javax.websocket.server.PathParam;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
@@ -50,7 +51,7 @@ public class HomeController {
     public void sell(@RequestBody SellableItem sellableItem){
         try {
             sellableItem.setSeller(this.client.getPseudo());
-            this.client.getServer().submit(sellableItem);
+            this.client.submitItem(sellableItem);
         } catch (RemoteException e) {
             log.warn("RemoteException {}", e.getMessage());
         }
@@ -83,6 +84,16 @@ public class HomeController {
             log.warn("RemoteException {}", e.getMessage());
         }
         return items;
+    }
+
+
+    @PostMapping("/users/{name}/bid")
+    public void bid(@PathVariable String name, @RequestBody SellableItem item){
+        try {
+            this.client.getServer().bid(item, name);
+        } catch (RemoteException e) {
+            log.warn("RemoteException {}", e.getMessage());
+        }
     }
 
     @GetMapping("/users/{name}/encheres")

@@ -10,10 +10,8 @@ import com.middleware.gringott.shared.interfaces.IServer;
 import com.middleware.gringott.shared.interfaces.Item;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.rmi.server.UID;
+import java.util.*;
 
 
 @Component("rmiEnchereService")
@@ -35,6 +33,7 @@ public class Server implements IServer {
     @Override
     public void registerClient(IClient client) throws RemoteException, ClientAlreadyExistExecption {
         if(clients.containsKey(client.getPseudo())) throw new ClientAlreadyExistExecption("Choose an other pseudo");
+        client.setId(UUID.randomUUID().toString());
         this.clients.put(client.getPseudo(), client);
         log.info("The client {} has been registred successfuly", client.getPseudo());
         for (Item i : items) {
@@ -52,17 +51,15 @@ public class Server implements IServer {
     }
 
     @Override
-    public void bid(Item item, double newPrice, String buyer) throws RemoteException, ClientNotFoundException {
+    public void bid(Item item, String buyer) throws RemoteException, ClientNotFoundException {
 
         if(!clients.containsKey(buyer)) throw new ClientNotFoundException("No client with this pseudo");
-
-        double price = item.getPrice() + newPrice;
-        log.info("New bid from {} recorded for {} at {}", buyer, item.getName(), price);
+        log.info("New bid from {} recorded for {} at {}", buyer, item.getName(), item.getCurrentPrice());
         Item newItem = item;
 
         for (Item i : items) {
-            if (i.getName().equals(item.getName())){
-                i.setPrice(price);
+            if (i.getId().equals(item.getId()) && i.getPrice() < item.getCurrentPrice()){
+                i.setPrice(item.getCurrentPrice());
                 i.setLeader(buyer);
                 newItem = i;
             }
@@ -79,6 +76,7 @@ public class Server implements IServer {
     public void submit(Item item) throws RemoteException, ClientNotFoundException {
         synchronized (items){
             if(!clients.containsKey(item.getSeller())) throw new ClientNotFoundException("No client with this pseudo");
+            item.setId(UUID.randomUUID().toString());
             log.info("New item registered : {}", item);
             this.items.add(item);
             this.observers.add(new Observer(

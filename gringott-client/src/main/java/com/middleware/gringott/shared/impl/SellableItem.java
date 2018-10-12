@@ -24,6 +24,7 @@ public class SellableItem implements Item {
     private String description;
     private String seller;
     private String leader;
+    private double currentPrice;
     private double price;
     private long time;
     private boolean sold;

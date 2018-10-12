@@ -6,6 +6,7 @@ import com.middleware.gringott.shared.exception.ClientNotFoundException;
 import com.middleware.gringott.shared.interfaces.IClient;
 import com.middleware.gringott.shared.interfaces.IServer;
 import com.middleware.gringott.shared.interfaces.Item;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -40,9 +41,16 @@ public class Client extends UnicastRemoteObject implements IClient {
         this.items = new ArrayList<>();
     }
 
+    public String getId() throws RemoteException{
+        return this.id;
+    }
+
+    public void setId(String id) throws RemoteException{
+        this.id = id;
+    }
+
 
     public void submitItem(Item item) throws RemoteException {
-        this.items.add(item);
         this.server.getServer().submit(item);
     }
 
@@ -86,7 +94,7 @@ public class Client extends UnicastRemoteObject implements IClient {
     @Override
     public void update(Item item) throws RemoteException {
         for (Item i : items){
-            if (i.getName().equals(item.getName()) && !i.isSold()){
+            if (i.getId().equals(item.getId()) && !i.isSold()){
                 i.setPrice(item.getPrice());
                 i.setLeader(item.getLeader());
                 i.setSold(item.isSold());

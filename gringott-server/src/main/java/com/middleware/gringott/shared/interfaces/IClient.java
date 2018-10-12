@@ -6,6 +6,10 @@ import java.util.List;
 
 public interface IClient extends Remote {
 
+    String getId() throws RemoteException;
+
+    void setId(String id) throws RemoteException;
+
     /**
      * Add a new sellable item.
      * @param item the item to be sold.
@@ -44,8 +48,8 @@ public interface IClient extends Remote {
      */
     void setPseudo(String pseudo) throws RemoteException;
 
-    String getId();
+    void submitItem(Item sellableItem) throws RemoteException;
 
-    void setId(String id);
+
 
 }

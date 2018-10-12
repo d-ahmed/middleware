@@ -1,10 +1,16 @@
 package com.middleware.gringott.shared.interfaces;
 
+import com.middleware.gringott.shared.impl.SellableItem;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
 public interface IClient extends Remote {
+
+    String getId() throws RemoteException;
+
+    void setId(String id) throws RemoteException;
 
     /**
      * Add a new sellable item.
@@ -44,4 +50,5 @@ public interface IClient extends Remote {
      */
     void setPseudo(String pseudo) throws RemoteException;
 
+    void submitItem(Item sellableItem) throws RemoteException;
 }
