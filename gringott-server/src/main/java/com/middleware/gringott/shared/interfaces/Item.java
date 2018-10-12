@@ -6,6 +6,10 @@ import java.util.Date;
 
 public interface Item extends Serializable {
 
+    String getId();
+
+    void setId(String id);
+
     /**
      * Get the name of the Item.
      * @return the name
@@ -65,5 +69,9 @@ public interface Item extends Serializable {
      * @return the seller's pseudo
      */
     Object getSeller();
+
+    double getCurrentPrice();
+
+    void setCurrentPrice(double currentPrice);
 
 }

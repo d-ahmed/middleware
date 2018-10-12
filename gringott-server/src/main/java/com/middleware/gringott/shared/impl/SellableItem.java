@@ -4,14 +4,7 @@ import com.middleware.gringott.shared.interfaces.Item;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.time.LocalDateTime;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 @NoArgsConstructor
@@ -30,6 +23,7 @@ public class SellableItem implements Item {
     private String seller;
     private String leader;
     private double price;
+    private double currentPrice;
     private long time;
     private boolean sold;
 
@@ -114,4 +108,6 @@ public class SellableItem implements Item {
     public void setTime(long time) {
         this.time = time;
     }
+
+
 }

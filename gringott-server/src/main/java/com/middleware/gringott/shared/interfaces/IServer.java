@@ -30,7 +30,7 @@ public interface IServer extends Remote {
      * @param buyer the client.
      * @throws RemoteException
      */
-    void bid(Item item, double newPrice, String buyer)  throws RemoteException, ClientNotFoundException;
+    void bid(Item item, String buyer)  throws RemoteException, ClientNotFoundException;
 
     /**
      * Record a new Item.
