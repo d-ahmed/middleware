@@ -6,10 +6,18 @@
             <div class="md-list-item-text">
                 <h3><b>Produit</b> : {{item.name}}</h3>
                 <h4><b>Description</b> : {{item.description}}</h4>
-                <b>Prix de base</b> : {{item.price}} euros <br>
-                <b>Prix courant</b> : {{item.currentPrice}} euros <br>
-                <b>Status</b> : {{item.sold}} <br>
-                <b>Vendeur : {{item.seller}}</b>
+                <h5>
+                    <b>Prix de base</b> : {{item.price}} &#128; <br>
+                    <b>Prix courant</b> : {{item.currentPrice}} &#128; <br>
+                </h5>
+                <h6 ng-if="!item.sold && item.leader"><b>Gagnant provisoire</b> : {{item.leader}}</h6>
+                <b>Status</b> :
+                    <span ng-if="item.sold">  Termine <br> </span>
+                    <span ng-if="!item.sold"> En cours<br> </span>
+                <b ng-if="item.sold">
+                    <span ng-if="item.leader">Achete par : {{item.leader}} <br></span>
+                    <span ng-if="!item.leader">Personne a participe dans l'enchere. Produit non vendu<br></span>
+                </b>
                 <hr>
             </div>
         </md-list-item>

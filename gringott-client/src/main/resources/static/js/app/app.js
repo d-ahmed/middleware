@@ -148,6 +148,14 @@ app.controller("lesencheres",function ($scope,$http, enchereService) {
 
     $scope.lesEncheres = [];
 
+    if (localStorage.getItem("desactiver")) {
+        console.log(1);
+        $scope.desactiver = JSON.parse(localStorage.getItem("desactiver"));
+    }else{
+        console.log(2);
+        $scope.desactiver = false;
+    }
+
 
     $scope.getEncheres = function () {
         var req = {
@@ -188,7 +196,9 @@ app.controller("lesencheres",function ($scope,$http, enchereService) {
 
         $http(req).then(
             function (response) {
-                console.log(response)
+                console.log(response);
+                $scope.desactiver = true;
+                localStorage.setItem("desactiver",JSON.stringify($scope.desactiver));
             },
             function (err) {
                 console.log(err)
@@ -206,6 +216,8 @@ app.controller("lesencheres",function ($scope,$http, enchereService) {
         }, function(update) {
             console.log('Got notification: ' + update);
             $scope.lesEncheres = JSON.parse(update);
+            $scope.desactiver = false;
+            localStorage.setItem("desactiver",JSON.stringify($scope.desactiver));
         });
     };
 

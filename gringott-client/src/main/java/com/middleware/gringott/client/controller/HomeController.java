@@ -77,8 +77,7 @@ public class HomeController {
             items = this.client.getItems()
                     .stream()
                     .filter(
-                            (i) -> !i.getSeller().equals(name) &&
-                                    !i.isSold()
+                            (i) -> !i.getSeller().equals(name)
                     ).collect(Collectors.toList());
         } catch (RemoteException e) {
             log.warn("RemoteException {}", e.getMessage());
