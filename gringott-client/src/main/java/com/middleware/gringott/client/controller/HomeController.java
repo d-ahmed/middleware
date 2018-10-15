@@ -111,4 +111,20 @@ public class HomeController {
         }
         return items;
     }
+
+    @GetMapping("/users/{name}/victoires")
+    @ResponseBody
+    public List<Item> getMesVictoires(@PathVariable String name){
+        List<Item> items = new ArrayList<>();
+        try {
+            items = this.client.getItems()
+                    .stream()
+                    .filter(
+                            (i) -> i.getLeader().equals(name) && i.isSold()
+                    ).collect(Collectors.toList());
+        } catch (RemoteException e) {
+            log.info("RemoteException {}", e.getMessage());
+        }
+        return items;
+    }
 }
