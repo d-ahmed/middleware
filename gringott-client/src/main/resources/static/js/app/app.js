@@ -225,3 +225,13 @@ app.controller("lesencheres",function ($scope,$http, enchereService) {
 
 });
 
+
+//---------------------- Directive---------------------
+app.directive("enchereDetail",function () {
+    return {
+        scope: {
+          item : "="
+        },
+        templateUrl:"views/enchereDetail.html"
+    }
+})

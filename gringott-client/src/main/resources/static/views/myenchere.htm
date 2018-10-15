@@ -4,21 +4,10 @@
         <md-list-item class="md-2-line" ng-repeat="item in listEnchers">
             <md-checkbox ng-model="item.done"></md-checkbox>
             <div class="md-list-item-text">
-                <h3><b>Produit</b> : {{item.name}}</h3>
-                <h4><b>Description</b> : {{item.description}}</h4>
-                <h5>
-                    <b>Prix de base</b> : {{item.price}} &#128; <br>
-                    <b>Prix courant</b> : {{item.currentPrice}} &#128; <br>
-                </h5>
-                <h6 ng-if="!item.sold && item.leader"><b>Gagnant provisoire</b> : {{item.leader}}</h6>
+                <enchere-Detail item="item"></enchere-Detail>
                 <b>Status</b> :
                     <span ng-if="item.sold">  Termine <br> </span>
                     <span ng-if="!item.sold"> En cours<br> </span>
-                <b ng-if="item.sold">
-                    <span ng-if="item.leader">Achete par : {{item.leader}} <br></span>
-                    <span ng-if="!item.leader">Personne a participe dans l'enchere. Produit non vendu<br></span>
-                </b>
-                <hr>
             </div>
         </md-list-item>
     </md-list>

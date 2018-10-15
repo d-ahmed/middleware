@@ -1,0 +1,13 @@
+<h3><b>Produit</b> : {{item.name}}</h3>
+<h4><b>Description</b> : {{item.description}}</h4>
+<h5>
+    <b>Prix de base</b> : {{item.price}} &#128; <br>
+    <b>Prix courant</b> : {{item.currentPrice}} &#128;
+</h5>
+<h6 ng-if="!item.sold  && item.leader"><b>Gagnant provisoire</b> : {{item.leader}}</h6>
+<div ng-if="item.sold">
+    <strong>Enchere est fini.
+        <span ng-if="item.leader">Gagne par : {{item.leader}}</span>
+        <span ng-if="!item.leader">Personne a participe dans l'enchere</span>
+    </strong>
+</div>
