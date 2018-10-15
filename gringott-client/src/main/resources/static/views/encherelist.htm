@@ -9,7 +9,9 @@
                             <input type="number" placeholder="Montant" ng-model="nombre" ng-disabled="desactiver" required>
                         </md-input-container >
                         <md-button class="md-raised md-primary" ng-click="enrichir(item,nombre)" ng-disabled="desactiver">Encherir</md-button>
+                        <p ng-if="message">{{message}}</p>
                     </div>
+
                 </md-card>
             </div>
     </div>

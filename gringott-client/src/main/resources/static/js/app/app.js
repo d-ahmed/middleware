@@ -1,23 +1,45 @@
 
 var app = angular.module("enchere", ['ngMaterial', 'ngMessages', 'ngRoute']);
+
 app.config(function($routeProvider) {
     $routeProvider
         .when("/", {
             templateUrl : "views/main.htm"
         })
         .when("/enchere/add", {
-            templateUrl : "views/addenchere.htm"
+            templateUrl : "views/addenchere.htm",
+            controller : "addEnchere",
+            resolve : {
+                'auth' : function(AuthGuard){
+                    return AuthGuard.authenticate();
+                }
+            }
         })
         .when("/enchere", {
             templateUrl : "views/encherelist.htm",
-            controller : "lesencheres"
+            controller : "lesencheres",
+            resolve : {
+                'auth' : function(AuthGuard){
+                    return AuthGuard.authenticate();
+                }
+            }
         })
         .when("/enchere/my", {
             templateUrl : "views/myenchere.htm",
-            controller : "mesEncheres"
-        }).when("/sell", {
-            templateUrl : "views/sell.htm",
-            controller : "sellCtrl"
+            controller : "mesEncheres",
+            resolve : {
+                'auth' : function(AuthGuard){
+                    return AuthGuard.authenticate();
+                }
+            }
+        }).when("/enchere/win", {
+            templateUrl : "views/enchereWin.htm",
+            controller : "enchereWin",
+            resolve : {
+               'auth' : function(AuthGuard){
+                    return AuthGuard.authenticate();
+                }
+            }
         }).when("/login",{
             templateUrl : "views/login.htm",
             controller : "Signin"
@@ -29,9 +51,38 @@ app.controller('homeCtrl', function($scope){
 });
 
 
+app.controller('enchereWin', function($scope,$http){
+    $scope.message = "Mes victoires";
+
+    $scope.mesVictoires = [];
+    $scope.name = localStorage.getItem("name");
+    var req = {
+        method: 'get',
+        url: '/users/'+$scope.name+'/victoires',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    $http(req).then(
+        function(response){
+            console.log(response);
+            $scope.mesVictoires = response.data;
+        },
+        function(err){
+            console.log(err);
+        }
+    );
 
 
-app.controller('sellCtrl', function($scope, $http,$location) {
+
+
+});
+
+
+
+
+app.controller('addEnchere', function($scope, $http,$location) {
     $scope.item = {
         name : '',
         description : '',
@@ -63,41 +114,6 @@ app.controller('sellCtrl', function($scope, $http,$location) {
 
 });
 
-app.factory('AuthService', function($http,$location){
-    return {
-        authenticate : function(name){
-
-            var req = {
-                method: 'POST',
-                url: '/login',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data: name
-            };
-
-            $http(req).then(
-                function(response){
-                    console.log(response);
-                    localStorage.setItem("name",name);
-                    console.log(localStorage.getItem("name"));
-                    $location.path("/sell");
-                },
-                function(err){
-                    console.log(err);
-                }
-            );
-
-            /*if(isAuthenticated){
-                //If authenticated, return anything you want, probably a user object
-                // return true;
-            } else {
-                //Else send a rejection
-                // return $q.reject('Not Authenticated');
-            }*/
-        }
-    }
-});
 
 app.controller("Signin",function ($scope, AuthService) {
     $scope.login = {
@@ -179,9 +195,15 @@ app.controller("lesencheres",function ($scope,$http, enchereService) {
     };
 
     $scope.enrichir= function(item,nombre){
+        $scope.message  = null;
         console.log(nombre);
-        item.currentPrice = nombre;
-        console.log(item);
+        if (nombre < item.currentPrice) {
+            $scope.message = "Montant doit etre superieur ou egal au prix de courant";
+            return;
+        }
+
+        var localItem = deepCopy(item);
+        localItem.currentPrice = nombre;
         var name = localStorage.getItem("name");
 
         var req = {
@@ -190,15 +212,16 @@ app.controller("lesencheres",function ($scope,$http, enchereService) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            data: item
+            data: localItem
 
-        }
+        };
 
         $http(req).then(
             function (response) {
                 console.log(response);
                 $scope.desactiver = true;
                 localStorage.setItem("desactiver",JSON.stringify($scope.desactiver));
+                $scope.message = "Bid envoye";
             },
             function (err) {
                 console.log(err)
@@ -217,6 +240,7 @@ app.controller("lesencheres",function ($scope,$http, enchereService) {
             console.log('Got notification: ' + update);
             $scope.lesEncheres = JSON.parse(update);
             $scope.desactiver = false;
+            $scope.message = null;
             localStorage.setItem("desactiver",JSON.stringify($scope.desactiver));
         });
     };
@@ -226,12 +250,69 @@ app.controller("lesencheres",function ($scope,$http, enchereService) {
 });
 
 
-//---------------------- Directive---------------------
+//---------------------- Directive ---------------------
 app.directive("enchereDetail",function () {
     return {
         scope: {
             item : "="
         },
-        templateUrl:"views/enchereDetail.html"
+        templateUrl:"views/enchereDetail.htm"
     }
-})
+});
+
+
+//---------------------- Factory ---------------------
+
+app.factory('AuthService', function($http,$location){
+    return {
+        authenticate : function(name){
+
+            var req = {
+                method: 'POST',
+                url: '/login',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: name
+            };
+
+            $http(req).then(
+                function(response){
+                    console.log(response);
+                    localStorage.setItem("name",name);
+                    $location.path("/enchere/add");
+                },
+                function(err){
+                    console.log(err);
+                }
+            );
+
+        }
+    }
+});
+
+app.factory('AuthGuard',function ($q,$location,AuthService) {
+    return {
+        authenticate : function(){
+            //Authentication logic here
+            var name = localStorage.getItem("name");
+            console.log(name);
+            if(name){
+                console.log("if");
+                AuthService.authenticate(name);
+                return true;
+            } else {
+                //Else send a rejection
+                console.log("else");
+                $location.path("/login");
+                return $q.reject('Not Authenticated');
+            }
+        }
+    }
+});
+
+//---------------------- Functions ---------------------
+var deepCopy = function (toCopy) {
+    return JSON.parse(JSON.stringify(toCopy));
+
+}

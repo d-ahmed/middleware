@@ -1,1 +1,18 @@
-<span>addenchere</span>
+<div ng-controller="addEnchere" style="margin: 5em auto 0 auto;text-align: center;">
+    <form style="display: inline-grid;width:auto;(border: 1px solid aliceblue;background-color: white;color: azure">
+        <md-input-container>
+            <input type="text" placeholder="Nom de l'objet" ng-model="item.name" required>
+        </md-input-container>
+        <md-input-container>
+            <input type="text" placeholder="Description de l'objet" ng-model="item.description" required>
+        </md-input-container>
+        <md-input-container>
+            <input type="number" placeholder="Prix" ng-model="item.price" required>
+        </md-input-container>
+        <md-input-container>
+            <input type="number" placeholder="Duree de l'enchere" ng-model="item.time" required>
+        </md-input-container>
+        <md-button class="md-raised md-primary" ng-click="sell()">Ajouter un objet</md-button>
+    </form>
+    <br>
+</div>
