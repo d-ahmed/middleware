@@ -230,7 +230,7 @@ app.controller("lesencheres",function ($scope,$http, enchereService) {
 app.directive("enchereDetail",function () {
     return {
         scope: {
-          item : "="
+            item : "="
         },
         templateUrl:"views/enchereDetail.html"
     }

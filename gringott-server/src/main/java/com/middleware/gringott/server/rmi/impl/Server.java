@@ -30,13 +30,15 @@ public class Server implements IServer {
 
     @Override
     public void registerClient(IClient client) throws RemoteException, ClientAlreadyExistExecption {
-        if(clients.containsKey(client.getPseudo())) throw new ClientAlreadyExistExecption("Choose an other pseudo");
-        client.setId(UUID.randomUUID().toString());
-        this.clients.put(client.getPseudo(), client);
-        log.info("The client {} has been registred successfuly", client.getPseudo());
-        for (Item i : items) {
-            client.addNewItem(i);
-        }
+            if(clients.containsKey(client.getPseudo())) throw new ClientAlreadyExistExecption("Choose an other pseudo");
+            client.setId(UUID.randomUUID().toString());
+            synchronized (clients) {
+                this.clients.put(client.getPseudo(), client);
+            }
+            log.info("The client {} has been registred successfuly", client.getPseudo());
+            for (Item i : items) {
+                client.addNewItem(i);
+            }
     }
 
     @Override
@@ -50,24 +52,23 @@ public class Server implements IServer {
 
     @Override
     public void bid(Item item, String buyer) throws RemoteException, ClientNotFoundException {
-
-        if(!clients.containsKey(buyer)) throw new ClientNotFoundException("No client with this pseudo");
-
-        for (Item i : items) {
-            if (i.getId().equals(item.getId())){
-                if(i.getCurrentPrice() < item.getCurrentPrice()){
-                    i.setCurrentPrice(item.getCurrentPrice());
-                    i.setLeader(buyer);
-                    log.info("New bid from {} recorded for {} at {}", buyer, i.getName(), i.getCurrentPrice());
-                    for (IClient c : clients.values()) {
-                        c.update(i);
+        synchronized (items){
+            if(!clients.containsKey(buyer)) throw new ClientNotFoundException("No client with this pseudo");
+            for (Item i : items) {
+                if (i.getId().equals(item.getId())){
+                    if(i.getCurrentPrice() < item.getCurrentPrice()){
+                        i.setCurrentPrice(item.getCurrentPrice());
+                        i.setLeader(buyer);
+                        log.info("New bid from {} recorded for {} at {}", buyer, i.getName(), i.getCurrentPrice());
+                        synchronized (clients){
+                            for (IClient c : clients.values()) {
+                                c.update(i);
+                            }
+                        }
                     }
                 }
             }
         }
-
-
-
 
     }
 
@@ -105,6 +106,7 @@ public class Server implements IServer {
 
             for (IClient c : clients.values()) {
                 c.addNewItem(item);
+                log.info("Send item to client {}", c);
             }
 
         }
