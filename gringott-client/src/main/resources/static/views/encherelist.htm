@@ -4,15 +4,12 @@
             <div class="item" flex ng-repeat="item in lesEncheres">
                 <md-card>
                     <enchere-Detail item="item"></enchere-Detail>
-                    <h6><b>Vendeur</b> : {{item.seller}}</h6>
                     <div ng-if="!item.sold">
                         <md-input-container >
                             <input type="number" placeholder="Montant" ng-model="nombre" ng-disabled="desactiver" required>
                         </md-input-container >
                         <md-button class="md-raised md-primary" ng-click="enrichir(item,nombre)" ng-disabled="desactiver">Encherir</md-button>
-
                     </div>
-
                 </md-card>
             </div>
     </div>
