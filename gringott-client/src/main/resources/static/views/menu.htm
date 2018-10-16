@@ -20,8 +20,12 @@
             <li class="nav-item">
                 <a class="nav-link" href="/#!/enchere/add">Mes Objets</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/#!/login">Se Connecter/a>
+            <li ng-if="name" class="nav-item" style="margin-left:20px;display: inline-flex;">
+                <span class="nav-link">Connecter en tant que : <i>{{name}}</i></span>
+                <a class="nav-link" href="/#!/login">Se Deconnecter</a>
+            </li>
+            <li ng-if="!name" class="nav-item">
+                <a class="nav-link" href="/#!/login">Se Connecter</a>
             </li>
         </ul>
     </div>

@@ -1,6 +1,15 @@
 
 var app = angular.module("enchere", ['ngMaterial', 'ngMessages', 'ngRoute']);
 
+app.run(function ($rootScope,$location,AuthService) {
+    var name = localStorage.getItem("name");
+    if (name){
+        AuthService.authenticate(name);
+    } else {
+        $location.path("/login");
+    }
+});
+
 app.config(function($routeProvider) {
     $routeProvider
         .when("/", {
@@ -102,7 +111,7 @@ app.controller('addEnchere', function($scope, $http,$location) {
                 'Content-Type': 'application/json'
             },
             data: $scope.item
-        }
+        };
 
         $http(req).then(
             function(response){
@@ -119,11 +128,34 @@ app.controller('addEnchere', function($scope, $http,$location) {
 });
 
 
-app.controller("Signin",function ($scope, AuthService) {
+app.controller("Signin",function ($scope,$http, AuthService) {
     $scope.login = {
         pseudo : ''
     };
 
+    var name = localStorage.getItem("name");
+    if (name) {
+        var req = {
+            method: 'POST',
+            url: `/logout`,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data:  name
+
+        };
+
+        $http(req).then(
+            function (response) {
+                localStorage.removeItem("name");
+                console.log(localStorage.getItem("name"));
+                console.log("Deconnecter");
+            },
+            function (err) {
+                console.log(err);
+            }
+        );
+    }
     $scope.addPseudo = function () {
         AuthService.authenticate($scope.login.pseudo)
     }
@@ -264,6 +296,14 @@ app.directive("enchereDetail",function () {
     }
 });
 
+app.directive("menuApp",function () {
+   return{
+       templateUrl:"views/menu.htm",
+       link: function ($scope) {
+           $scope.name = localStorage.getItem("name");
+       }
+   }
+});
 
 //---------------------- Factory ---------------------
 
@@ -300,14 +340,7 @@ app.factory('AuthGuard',function ($q,$location,AuthService) {
         authenticate : function(){
             //Authentication logic here
             var name = localStorage.getItem("name");
-            console.log(name);
-            if(name){
-                console.log("if");
-               // AuthService.authenticate(name);
-                return true;
-            } else {
-                //Else send a rejection
-                console.log("else");
+            if(!name){
                 $location.path("/login");
                 return $q.reject('Not Authenticated');
             }

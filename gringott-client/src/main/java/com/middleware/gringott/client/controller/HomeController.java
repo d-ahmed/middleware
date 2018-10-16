@@ -68,6 +68,16 @@ public class HomeController {
         }
     }
 
+    @PostMapping("/logout")
+    @ResponseBody
+    public void logout(@RequestBody String name){
+        try {
+            this.client.getServer().logout(this.client);
+        } catch (RemoteException e) {
+            log.warn("RemoteException {}", e.getMessage());
+        }
+    }
+
     @GetMapping("/encheres")
     @ResponseBody
     public List<Item> getEnchers(){

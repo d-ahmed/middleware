@@ -7,7 +7,7 @@
                     <p><b>Vendeur</b> : {{item.seller}}</p>
                     <div ng-if="!item.sold">
                         <md-input-container >
-                            <input type="number" placeholder="Montant" ng-model="nombre" ng-disabled="desactiver" required>
+                            <input type="number" placeholder="Montant" ng-model="nombre" required>
                         </md-input-container >
                         <md-button class="md-raised md-primary" ng-click="enrichir(item,nombre)" ng-disabled="desactiver">Encherir</md-button>
                         <p ng-if="message">{{message}}</p>
