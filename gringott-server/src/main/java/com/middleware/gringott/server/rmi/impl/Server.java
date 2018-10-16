@@ -37,7 +37,9 @@ public class Server implements IServer {
             }
             log.info("The client {} has been registred successfuly", client.getPseudo());
             for (Item i : items) {
-                client.addNewItem(i);
+                if (!i.isSold()){
+                    client.addNewItem(i);
+                }
             }
     }
 

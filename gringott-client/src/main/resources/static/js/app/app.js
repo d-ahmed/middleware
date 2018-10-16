@@ -303,7 +303,7 @@ app.factory('AuthGuard',function ($q,$location,AuthService) {
             console.log(name);
             if(name){
                 console.log("if");
-                AuthService.authenticate(name);
+               // AuthService.authenticate(name);
                 return true;
             } else {
                 //Else send a rejection
