@@ -56,9 +56,11 @@ public class Client extends UnicastRemoteObject implements IClient {
 
     @Override
     public void addNewItem(Item item) throws RemoteException {
-        this.items.add(item);
-        log.info("New item registered : {}", item);
-        this.notifySocket();
+        if(!items.contains(item)){
+            this.items.add(item);
+            log.info("New item registered : {}", item);
+            this.notifySocket();
+        }
     }
 
     @Override

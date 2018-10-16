@@ -75,4 +75,6 @@ public interface Item extends Serializable {
 
     void setCurrentPrice(double currentPrice);
 
+    boolean equals(Object o);
+
 }

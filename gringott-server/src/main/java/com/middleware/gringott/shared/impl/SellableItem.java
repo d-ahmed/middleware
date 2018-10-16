@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Objects;
 
 
 @NoArgsConstructor
@@ -107,6 +108,14 @@ public class SellableItem implements Item {
 
     public void setTime(long time) {
         this.time = time;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SellableItem that = (SellableItem) o;
+        return Objects.equals(id, that.id);
     }
 
 
