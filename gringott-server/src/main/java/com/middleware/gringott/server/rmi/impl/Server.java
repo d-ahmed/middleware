@@ -30,7 +30,7 @@ public class Server implements IServer {
 
     @Override
     public void registerClient(IClient client) throws RemoteException, ClientAlreadyExistExecption {
-            if(clients.containsKey(client.getPseudo())) throw new ClientAlreadyExistExecption("Choose an other pseudo");
+        if(clients.containsKey(client.getPseudo()) || client.getId()!=null) throw new ClientAlreadyExistExecption("Choose an other pseudo");
             client.setId(UUID.randomUUID().toString());
             synchronized (clients) {
                 this.clients.put(client.getPseudo(), client);
@@ -43,6 +43,7 @@ public class Server implements IServer {
 
     @Override
     public void logout(IClient client) throws RemoteException, ClientNotFoundException {
+        client.setId(null);
         synchronized (clients){
             if(!clients.containsKey(client.getPseudo())) throw new ClientNotFoundException("No client with this pseudo");
             log.info("Client {} is logout successfuly", client.getPseudo());
