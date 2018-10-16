@@ -51,7 +51,7 @@ app.controller('homeCtrl', function($scope){
 });
 
 
-app.controller('enchereWin', function($scope,$http){
+app.controller('enchereWin', function($scope,$http,enchereService){
     $scope.message = "Mes victoires";
 
     $scope.mesVictoires = [];
@@ -62,7 +62,7 @@ app.controller('enchereWin', function($scope,$http){
         headers: {
             'Content-Type': 'application/json'
         }
-    }
+    };
 
     $http(req).then(
         function(response){
@@ -74,13 +74,17 @@ app.controller('enchereWin', function($scope,$http){
         }
     );
 
-
+    enchereService.receiveWonItems().then(function(greeting) {
+        console.log('Success: ' + greeting);
+    }, function(reason) {
+        console.log('Failed: ' + reason);
+    }, function(update) {
+        console.log('Got notification: ' + update);
+        $scope.mesVictoires = JSON.parse(update);
+    });
 
 
 });
-
-
-
 
 app.controller('addEnchere', function($scope, $http,$location) {
     $scope.item = {

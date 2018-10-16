@@ -4,6 +4,7 @@
             <div class="item" flex ng-repeat="item in lesEncheres">
                 <md-card>
                     <enchere-Detail item="item"></enchere-Detail>
+                    <p><b>Vendeur</b> : {{item.seller}}</p>
                     <div ng-if="!item.sold">
                         <md-input-container >
                             <input type="number" placeholder="Montant" ng-model="nombre" ng-disabled="desactiver" required>

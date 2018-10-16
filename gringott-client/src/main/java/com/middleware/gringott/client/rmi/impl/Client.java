@@ -77,6 +77,7 @@ public class Client extends UnicastRemoteObject implements IClient {
                 i.setSold(item.isSold());
                 log.info("Update item : {}", i);
                 this.notifySocket();
+                this.notifyWin();
             }
         }
     }
@@ -96,8 +97,18 @@ public class Client extends UnicastRemoteObject implements IClient {
                                 (i) -> i.getSeller().equals(pseudo)
                         ).collect(Collectors.toList())
         );
+
+
     }
 
+    private void notifyWin(){
+        this.soketController.onReciveWonItems(
+                items.stream()
+                        .filter(
+                                (i) -> i.getLeader().equals(pseudo) && i.isSold()
+                        ).collect(Collectors.toList())
+        );
+    }
 
     @Override
     public String getPseudo() throws RemoteException {

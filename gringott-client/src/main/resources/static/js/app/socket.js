@@ -1,7 +1,7 @@
 
 app.factory('enchereService', function($q, $timeout) {
 
-    var service = {}, listenerItems = $q.defer(), listenerMyItems = $q.defer(), socket = {
+    var service = {}, listenerItems = $q.defer(), listenerMyItems = $q.defer(),listenerWonItems = $q.defer(), socket = {
         client: null,
         stomp: null
     }, messageIds = [];
@@ -10,6 +10,7 @@ app.factory('enchereService', function($q, $timeout) {
     service.SOCKET_URL = "/enchere";
     service.ITEMS_TOPIC = "/topic/items";
     service.MY_ITEMS_TOPIC = "/topic/items/my";
+    service.MY_WON_TOPICS = "/topic/items/won";
 
     service.receiveItems = function() {
         return listenerItems.promise;
@@ -17,6 +18,10 @@ app.factory('enchereService', function($q, $timeout) {
 
     service.receiveMyItems = function() {
         return listenerMyItems.promise;
+    };
+
+     service.receiveWonItems = function() {
+        return listenerWonItems.promise;
     };
 
 
@@ -33,6 +38,11 @@ app.factory('enchereService', function($q, $timeout) {
 
         socket.stomp.subscribe(service.MY_ITEMS_TOPIC, function(data) {
             listenerMyItems.notify(data.body);
+        });
+
+        socket.stomp.subscribe(service.MY_WON_TOPICS, function(data) {
+            console.log(data.body);
+            listenerWonItems.notify(data.body);
         });
     };
 
