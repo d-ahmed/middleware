@@ -1,6 +1,32 @@
 <div ng-controller="enchereWin">
     <h1>{{message}}</h1>
-    <div class="item" flex ng-repeat="item in mesVictoires">
-        <enchere-Detail item="item"></enchere-Detail>
-    </div>
+
+    <section ng-if="mesVictoires.length > 0" class="tiles">
+        <article ng-repeat="(index, item) in mesVictoires" ng-class="'style'+((index%5)+1)" >
+            <span ng-if="item" class="image">
+                <img  src="/images/pic{{((index%15)+1)}}.jpg" alt="" />
+            </span>
+            <a>
+                <h2>{{item.name}}</h2>
+                <div class="content">
+                    <p>{{item.description}}</p>
+                    <p>
+                        <b>Prix de base</b> : {{item.price}} &#128; <br>
+                        <b>Prix courant</b> : {{item.currentPrice}} &#128;
+                    </p>
+                    <h6 ng-if="!item.sold  && item.leader"><b>Gagnant provisoire</b> : {{item.leader}}</h6>
+                    <div ng-if="item.sold">
+                        <p>
+                            <strong>Enchere fini.
+                                <span ng-if="item.leader">Gagne par : {{item.leader}}</span>
+                                <span ng-if="!item.leader">Personne a participe dans l'enchere</span>
+                            </strong>
+                        </p>
+                    </div>
+                    <p><b>Vendeur</b> : {{item.seller}}</p>
+                </div>
+            </a>
+        </article>
+    </section>
+
 </div>

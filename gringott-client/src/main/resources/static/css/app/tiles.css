@@ -123,6 +123,11 @@
     margin-top: 0.35em;
     opacity: 0;
     text-align: left;
+    overflow-y: scroll;
+}
+
+.tiles article > a .content input{
+    color: #fff;
 }
 
 .tiles article > a .content > :last-child {
