@@ -87,7 +87,7 @@ public class HomeController {
             items = this.client.getItems()
                     .stream()
                     .filter(
-                            (i) -> !i.getSeller().equals(name)
+                            (i) -> !name.equals(i.getSeller())
                     ).collect(Collectors.toList());
         } catch (RemoteException e) {
             log.warn("RemoteException {}", e.getMessage());
@@ -114,7 +114,7 @@ public class HomeController {
             items = this.client.getItems()
                     .stream()
                     .filter(
-                            (i) -> i.getSeller().equals(name)
+                            (i) -> name.equals(i.getSeller())
                     ).collect(Collectors.toList());
         } catch (RemoteException e) {
             log.info("RemoteException {}", e.getMessage());
@@ -130,7 +130,7 @@ public class HomeController {
             items = this.client.getItems()
                     .stream()
                     .filter(
-                            (i) -> i.getLeader().equals(name) && i.isSold()
+                            (i) -> name.equals(i.getLeader()) && i.isSold()
                     ).collect(Collectors.toList());
         } catch (RemoteException e) {
             log.info("RemoteException {}", e.getMessage());
