@@ -208,6 +208,7 @@ app.controller("lesencheres",function ($scope,$http, enchereService) {
         $scope.desactiver = false;
     }
 
+
     $scope.getRandomSpan =  function (max){
         // console.log(max);
         return Math.floor((Math.random()*max)+1);

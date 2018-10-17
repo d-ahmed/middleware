@@ -1,9 +1,9 @@
 <div ng-controller="lesencheres">
     <h1>Les encheres en cours</h1>
-    <section ng-if="lesEncheres" class="tiles">
-        <article ng-if="item" ng-repeat="(index, item) in lesEncheres" ng-class="'style'+((index%6)+1)" >
-            <span class="image">
-                <img src="/images/pic{{((index%15)+1)}}.jpg" alt="" />
+    <section ng-if="lesEncheres.length > 0" class="tiles">
+        <article ng-repeat="(index, item) in lesEncheres" ng-class="'style'+((index%5)+1)" >
+            <span ng-if="item" class="image">
+                <img  src="/images/pic{{((index%15)+1)}}.jpg" alt="" />
             </span>
                 <a>
                     <h2>{{item.name}}</h2>
