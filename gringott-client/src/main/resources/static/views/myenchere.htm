@@ -1,8 +1,8 @@
 <div ng-controller="mesEncheres">
     <h1>Mes Encheres</h1>
 
-    <section ng-if="mesVictoires.length > 0" class="tiles">
-        <article ng-repeat="(index, item) in mesVictoires" ng-class="'style'+((index%5)+1)" >
+    <section ng-if="listEnchers.length > 0" class="tiles">
+        <article ng-repeat="(index, item) in listEnchers" ng-class="'style'+((index%5)+1)" >
             <span ng-if="item" class="image">
                 <img  src="/images/pic{{((index%15)+1)}}.jpg" alt="" />
             </span>
