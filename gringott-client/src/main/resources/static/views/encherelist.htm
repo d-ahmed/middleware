@@ -1,18 +1,6 @@
 <div ng-controller="lesencheres">
     <h1>Les encheres en cours</h1>
-<<<<<<< HEAD
-    <div layout="row" class="items">
-            <div class="item" flex ng-repeat="item in lesEncheres">
-                <md-card>
-                    <enchere-Detail item="item"></enchere-Detail>
-                    <p><b>Vendeur</b> : {{item.seller}}</p>
-                    <div ng-if="!item.sold">
-                        <md-input-container >
-                            <input type="number" placeholder="Montant" ng-model="nombre" required>
-                        </md-input-container >
-                        <md-button class="md-raised md-primary" ng-click="enrichir(item,nombre)" ng-disabled="name=item.leader">Encherir</md-button>
-                        <p ng-if="message">{{message}}</p>
-=======
+
     <section ng-if="lesEncheres.length > 0" class="tiles">
         <article ng-repeat="(index, item) in lesEncheres" ng-class="'style'+((index%5)+1)" >
             <span ng-if="item" class="image">
@@ -43,7 +31,6 @@
                             <md-button class="md-raised md-primary" ng-click="enrichir(item,nombre)" ng-disabled="desactiver">Encherir</md-button>
                             <p ng-if="message">{{message}}</p>
                         </div>
->>>>>>> newdesign
                     </div>
                 </a>
             </article>
