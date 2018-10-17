@@ -199,6 +199,8 @@ app.controller('mesEncheres', function ($scope,$http,enchereService) {
 app.controller("lesencheres",function ($scope,$http, enchereService) {
 
     $scope.lesEncheres = [];
+    $scope.name = localStorage.getItem("name");
+
 
     if (localStorage.getItem("desactiver")) {
         console.log(1);
@@ -240,11 +242,10 @@ app.controller("lesencheres",function ($scope,$http, enchereService) {
 
         var localItem = deepCopy(item);
         localItem.currentPrice = nombre;
-        var name = localStorage.getItem("name");
 
         var req = {
             method : "POST",
-            url:'/users/'+name+'/bid',
+            url:'/users/'+$scope.name+'/bid',
             headers: {
                 'Content-Type': 'application/json'
             },

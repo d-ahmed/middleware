@@ -9,7 +9,7 @@
                         <md-input-container >
                             <input type="number" placeholder="Montant" ng-model="nombre" required>
                         </md-input-container >
-                        <md-button class="md-raised md-primary" ng-click="enrichir(item,nombre)" ng-disabled="desactiver">Encherir</md-button>
+                        <md-button class="md-raised md-primary" ng-click="enrichir(item,nombre)" ng-disabled="name=item.leader">Encherir</md-button>
                         <p ng-if="message">{{message}}</p>
                     </div>
 
