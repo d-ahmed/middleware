@@ -211,6 +211,12 @@ app.controller("lesencheres",function ($scope,$http, enchereService) {
     }
 
 
+    $scope.getRandomSpan =  function (max){
+        // console.log(max);
+        return Math.floor((Math.random()*max)+1);
+    };
+
+
     $scope.getEncheres = function () {
         var req = {
             method: 'GET',

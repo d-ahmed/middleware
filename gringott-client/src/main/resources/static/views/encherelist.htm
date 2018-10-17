@@ -1,5 +1,6 @@
 <div ng-controller="lesencheres">
     <h1>Les encheres en cours</h1>
+<<<<<<< HEAD
     <div layout="row" class="items">
             <div class="item" flex ng-repeat="item in lesEncheres">
                 <md-card>
@@ -11,9 +12,41 @@
                         </md-input-container >
                         <md-button class="md-raised md-primary" ng-click="enrichir(item,nombre)" ng-disabled="name=item.leader">Encherir</md-button>
                         <p ng-if="message">{{message}}</p>
+=======
+    <section ng-if="lesEncheres.length > 0" class="tiles">
+        <article ng-repeat="(index, item) in lesEncheres" ng-class="'style'+((index%5)+1)" >
+            <span ng-if="item" class="image">
+                <img  src="/images/pic{{((index%15)+1)}}.jpg" alt="" />
+            </span>
+                <a>
+                    <h2>{{item.name}}</h2>
+                    <div class="content">
+                        <p>{{item.description}}</p>
+                        <p>
+                            <b>Prix de base</b> : {{item.price}} &#128; <br>
+                            <b>Prix courant</b> : {{item.currentPrice}} &#128;
+                        </p>
+                        <h6 ng-if="!item.sold  && item.leader"><b>Gagnant provisoire</b> : {{item.leader}}</h6>
+                        <div ng-if="item.sold">
+                            <p>
+                                <strong>Enchere fini.
+                                    <span ng-if="item.leader">Gagne par : {{item.leader}}</span>
+                                    <span ng-if="!item.leader">Personne a participe dans l'enchere</span>
+                                </strong>
+                            </p>
+                        </div>
+                        <p><b>Vendeur</b> : {{item.seller}}</p>
+                        <div ng-if="!item.sold">
+                            <md-input-container >
+                                <input type="number" placeholder="Montant" ng-model="nombre" required>
+                            </md-input-container >
+                            <md-button class="md-raised md-primary" ng-click="enrichir(item,nombre)" ng-disabled="desactiver">Encherir</md-button>
+                            <p ng-if="message">{{message}}</p>
+                        </div>
+>>>>>>> newdesign
                     </div>
+                </a>
+            </article>
+    </section>
 
-                </md-card>
-            </div>
-    </div>
 </div>
