@@ -1,0 +1,13 @@
+.nameListItem{
+    margin-left:20px;
+    display: flex;
+}
+
+@media screen and (max-width: 991px){
+
+    .nameListItem{
+        margin-left:;
+        display: block;
+    }
+
+}

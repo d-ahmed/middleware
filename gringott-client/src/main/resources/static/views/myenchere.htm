@@ -1,6 +1,8 @@
 <div ng-controller="mesEncheres">
     <h1>Mes Encheres</h1>
 
+    <md-button  class="md-raised md-primary" href="/#!/enchere/add">Ajouter un Objet</md-button>
+
     <section ng-if="listEnchers.length > 0" class="tiles">
         <article ng-repeat="(index, item) in listEnchers" ng-class="'style'+((index%5)+1)" >
             <span ng-if="item" class="image">
@@ -9,20 +11,8 @@
             <a>
                 <h2>{{item.name}}</h2>
                 <div class="content">
-                    <p>{{item.description}}</p>
-                    <p>
-                        <b>Prix de base</b> : {{item.price}} &#128; <br>
-                        <b>Prix courant</b> : {{item.currentPrice}} &#128;
-                    </p>
-                    <h6 ng-if="!item.sold  && item.leader"><b>Gagnant provisoire</b> : {{item.leader}}</h6>
-                    <div ng-if="item.sold">
-                        <p>
-                            <strong>Enchere fini.
-                                <span ng-if="item.leader">Gagne par : {{item.leader}}</span>
-                                <span ng-if="!item.leader">Personne a participe dans l'enchere</span>
-                            </strong>
-                        </p>
-                    </div>
+                    <enchere-Detail item="item"></enchere-Detail>
+
                     <b>Status</b> :
                     <span ng-if="item.sold">  Termine <br> </span>
                     <span ng-if="!item.sold"> En cours<br> </span>

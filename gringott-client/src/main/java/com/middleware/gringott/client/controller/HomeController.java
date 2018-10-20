@@ -73,6 +73,7 @@ public class HomeController {
     public void logout(@RequestBody String name){
         try {
             this.client.getServer().logout(this.client);
+            this.client.setPseudo("");
         } catch (RemoteException e) {
             log.warn("RemoteException {}", e.getMessage());
         }

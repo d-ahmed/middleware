@@ -1,7 +1,7 @@
 
 var app = angular.module("enchere", ['ngMaterial', 'ngMessages', 'ngRoute']);
 
-app.run(function ($rootScope,$location,AuthService) {
+app.run(function ($rootScope,$location,$route,AuthService) {
     var name = localStorage.getItem("name");
     if (name){
         AuthService.authenticate(name);
@@ -148,14 +148,13 @@ app.controller("Signin",function ($scope,$http, AuthService) {
         $http(req).then(
             function (response) {
                 localStorage.removeItem("name");
-                console.log(localStorage.getItem("name"));
-                console.log("Deconnecter");
             },
             function (err) {
                 console.log(err);
             }
         );
     }
+
     $scope.addPseudo = function () {
         AuthService.authenticate($scope.login.pseudo)
     }
@@ -168,7 +167,7 @@ app.controller('mesEncheres', function ($scope,$http,enchereService) {
     $scope.getMesEncheres = function(name){
         var req = {
             method: 'GET',
-            url:`/users/${name}/encheres`,
+            url:`/users/${name}/encheres`
         };
 
         $http(req).then(
@@ -201,16 +200,6 @@ app.controller("lesencheres",function ($scope,$http, enchereService) {
     $scope.lesEncheres = [];
     $scope.name = localStorage.getItem("name");
 
-
-    if (localStorage.getItem("desactiver")) {
-        console.log(1);
-        $scope.desactiver = JSON.parse(localStorage.getItem("desactiver"));
-    }else{
-        console.log(2);
-        $scope.desactiver = false;
-    }
-
-
     $scope.getRandomSpan =  function (max){
         // console.log(max);
         return Math.floor((Math.random()*max)+1);
@@ -241,7 +230,7 @@ app.controller("lesencheres",function ($scope,$http, enchereService) {
     $scope.enrichir= function(item,nombre){
         $scope.message  = null;
         console.log(nombre);
-        if (nombre < item.currentPrice) {
+        if (nombre <= item.currentPrice) {
             $scope.message = "Montant doit etre superieur ou egal au prix de courant";
             return;
         }
@@ -262,8 +251,6 @@ app.controller("lesencheres",function ($scope,$http, enchereService) {
         $http(req).then(
             function (response) {
                 console.log(response);
-                $scope.desactiver = true;
-                localStorage.setItem("desactiver",JSON.stringify($scope.desactiver));
                 $scope.message = "Bid envoye";
             },
             function (err) {
@@ -282,9 +269,7 @@ app.controller("lesencheres",function ($scope,$http, enchereService) {
         }, function(update) {
             console.log('Got notification: ' + update);
             $scope.lesEncheres = JSON.parse(update);
-            $scope.desactiver = false;
             $scope.message = null;
-            localStorage.setItem("desactiver",JSON.stringify($scope.desactiver));
         });
     };
 
@@ -292,6 +277,19 @@ app.controller("lesencheres",function ($scope,$http, enchereService) {
 
 });
 
+app.controller("menuCtrl", function ($scope,enchereService) {
+   $scope.name = localStorage.getItem("name");
+
+    enchereService.receiveMyName().then(function(greeting) {
+        console.log('Success: ' + greeting);
+    }, function(reason) {
+        console.log('Failed: ' + reason);
+    }, function(update) {
+        console.log('Got notification: ' + update);
+        $scope.name = update;
+    });
+
+});
 
 //---------------------- Directive ---------------------
 app.directive("enchereDetail",function () {
@@ -314,7 +312,7 @@ app.directive("menuApp",function () {
 
 //---------------------- Factory ---------------------
 
-app.factory('AuthService', function($http,$location){
+app.factory('AuthService', function($http,$route,$location){
     return {
         authenticate : function(name){
 
@@ -329,7 +327,7 @@ app.factory('AuthService', function($http,$location){
 
             $http(req).then(
                 function(response){
-                    console.log(response);
+                   // console.log(response);
                     localStorage.setItem("name",name);
                     $location.path("/enchere/add");
                 },
@@ -342,7 +340,7 @@ app.factory('AuthService', function($http,$location){
     }
 });
 
-app.factory('AuthGuard',function ($q,$location,AuthService) {
+app.factory('AuthGuard',function ($q,$location) {
     return {
         authenticate : function(){
             //Authentication logic here

@@ -1,6 +1,7 @@
 package com.middleware.gringott.client.controller;
 
 import com.middleware.gringott.shared.interfaces.Item;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
@@ -30,4 +31,6 @@ public class SoketController {
     public void onReciveWonItems(List<Item> items) {
         this.messagingTemplate.convertAndSend("/topic/items/won", items);
     }
+
+    public void onReciveMyName(String pseudo) { this.messagingTemplate.convertAndSend("/topic/name", pseudo);  }
 }

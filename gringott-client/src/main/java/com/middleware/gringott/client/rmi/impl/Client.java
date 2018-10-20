@@ -112,6 +112,11 @@ public class Client extends UnicastRemoteObject implements IClient {
         );
     }
 
+    private void notifyName(String pseudo){
+        this.soketController.onReciveMyName(pseudo);
+    }
+
+
     @Override
     public String getPseudo() throws RemoteException {
         return this.pseudo;
@@ -130,6 +135,7 @@ public class Client extends UnicastRemoteObject implements IClient {
     @Override
     public void setPseudo(String pseudo) throws RemoteException {
         this.pseudo = pseudo;
+        notifyName(pseudo);
     }
 
     @PreDestroy
