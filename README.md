@@ -1,6 +1,6 @@
 # Rapport Middleware
 
-###### M2 ALMA – 2018/2019 : Daniel AHMED,Pierre Caillaud, Demetre PHALAVANDISHVILI   
+###### M2 ALMA – 2018/2019 : Daniel AHMED, Pierre Caillaud, Demetre PHALAVANDISHVILI   
 
 ## Critique des projets
 
@@ -106,10 +106,11 @@ mvn spring-boot:run
 
 #### Configurer Serveur chez client
 
-​	Par default si le client et serveur s'execute sur la meme machine, il y  a pas besoin de configurer le serveur chez client. Dans le cas contraire quand le client se trouve sur l'autre machine il faut modifier l'adress du serveur chez le client. Pour cela dans le fichier *application.properties* trouvant dans le dossier 
-*middleware\gringott-client\src\main\resources*  on doit modifier la premiere ligne en mettant l'adress IP du machine sur laquelle serveur tourne.
+​	Par default si le client et serveur s'execute sur la meme machine, il y  a pas besoin de configurer le serveur chez client. Dans le cas contraire quand le client se trouve sur l'autre machine il faut modifier l'adress du serveur chez le client. Pour cela dans le fichier ```application.properties``` trouvant dans le dossier 
+```middleware\gringott-client\src\main\resources```  on doit modifier la premiere ligne en mettant l'adress IP du machine sur laquelle serveur tourne.
 
 #### Configurer plusieurs client sur la meme machine
 
-​	Par default, IHM web se trouve a l'adresse suivante : *http://localhost:3000*, mais nous avons la possibilite d'avoir plusieur client qui tourne sur la meme machin. Pour cela dans le fichier *application.properties* trouvant dans le dossier 
-*middleware\gringott-client\src\main\resources*  on modifie l'option *server.port* en le mettant à 0. Cette changement nous donne different *port* a l'execution de l'application client pour acceder a l'IHM. 
+​	Par default, IHM web se trouve a l'adresse suivante : *http://localhost:3000*, mais nous avons la possibilite d'avoir plusieur client qui tourne sur la meme machin. Pour cela dans le fichier ```application.properties``` trouvant dans le dossier ```middleware\gringott-client\src\main\resources```  on modifie l'option *server.port* en le mettant à 0. Cette changement nous donne different *port* a l'execution de l'application client pour acceder a l'IHM. 
+
+​	Par default, IHM web se trouve a l'adresse suivante : *http://localhost:3000*, mais nous avons la possibilite d'avoir plusieur client qui tourne sur la meme machin. Pour cela dans le fichier ```application.properties``` trouvant dans le dossier ```middleware\gringott-client\src\main\resources```  on modifie l'option *server.port* en le mettant à 0. Cette changement nous donne different *port* a l'execution de l'application client pour acceder a l'IHM. 
