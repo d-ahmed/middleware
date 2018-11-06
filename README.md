@@ -1,6 +1,6 @@
 # Rapport Middleware
 
-###### M2 ALMA – 2018/2019 : Daniel AHMED, Pierre Caillaud, Demetre PHALAVANDISHVILI   
+###### M2 ALMA – 2018/2019 : Daniel AHMED, Pierre CAILLAUD, Demetre PHALAVANDISHVILI   
 
 ## Critique des projets
 
@@ -18,17 +18,17 @@
 
 ​	Par ailleurs, le serveur n’est capable de gérer qu’une seule enchère à la fois. Les enchères suivantes sont placées dans une file d’attente le temps que l’enchère courante se finisse. Ça permet de grandement simplifier les système d’enchères mais ça limite aussi énormément l’utilisation de ce système par les clients.
 
-​	En ce qui concerne les renchérissements, la méthode raiseBid() étant synchronized on ne peut pas avoir de collision sur une enchère. Par contre, côté client, le nom de celui qui a enchérit n’apparait pas. En tant que client, il m’est donc impossible donc de savoir si c’est bien moi qui détient l’enchère la plus haute ou un autre client qui aurait renchérit du même montant juste avant moi. 
+​	En ce qui concerne les renchérissements, la méthode raiseBid() étant synchronized on ne peut pas avoir de collision sur une enchère. Par contre, côté client, le nom de celui qui a enchérit n’apparait pas. En tant que client, il m’est donc impossible donc de savoir si c’est bien moi qui détient l’enchère la plus haute ou un autre client qui aurait renchérit du même montant juste avant moi.
 
 ​	Pour conclure, le projet est plutôt solide du point de vue de sa conception, les quelques points négatifs sont essentiellement dus au nombre de fonctionnalités limité proposé par l’application.
 
 ## Projet Gringott : Evolution du projet
 
-​	Nous avons corrigé ce qui nous ne semblait pas bien implémenté dans l'ancien projet gringot. Notamment la synchronisation qui était réalisé côté client au lieu de faire côté serveur. Nous avons identifier les problèmes posés par cette décision, en particulier au moment quand deux utilisateurs essayaient de se connecter le serveur ne faisait pas différence et enregistrait deux utilisateurs avec même pseudo. De plus dans l'implémentation de départ nous avons la possibilité d’enrichir sans arrêt tant que l'enchère ne soit pas fini. Nous avons corrigé cette fonctionnalité et dans notre version on peut enrichir qu’en une autre utilisateur à enchérir.
+​	Nous avons corrigé ce qui ne nous semblait pas bien implémenté dans l'ancien projet gringott. Notamment la synchronisation qui était réalisée côté client au lieu d'être faite côté serveur. Nous avons identifié les problèmes posés par cette décision, en particulier au moment où deux utilisateurs essayaient de se connecter le serveur ne faisait pas la différence et enregistrait deux utilisateurs avec le même pseudo. De plus dans l'implémentation de départ nous avons la possibilité d’enrichir sans arrêt tant que l'enchère n'est pas fini. Nous avons corrigé cette fonctionnalité et dans notre version on peut enrichir que lorsqu' un autre utilisateur à renchérit.
 
-​	Nous avons opté d’utiliser Spring boot pour faciliter le développement et le déploiement de l’application. Ce qui nous a permis de faire la refonte de l’IHM en swing vers une IHM web réalisé en HTML5, CSS3 et angularjs. Cette implémentation en IHM web nous a permis de facilement ajoute les fonctionnalités qui en manquaient dans l'implémentation de départ. En particuliers nous avons ajouté la possibilité de consulter mes enchères ajouter. 
+​	Nous avons opté d’utiliser Spring boot pour faciliter le développement et le déploiement de l’application. Ce qui nous a permis de faire la refonte de l’IHM en swing vers une IHM web réalisée en HTML5, CSS3 et angularjs. Cette implémentation en IHM web nous a permis de facilement ajouter les fonctionnalités qui manquaient dans l'implémentation de départ. En particuliers nous avons ajouté la possibilité de consulter nos enchères ajoutées.
 
-​	Avec l'intégration des sockets web côté client, nous avons intégré de la réactivité dans l’application. Ceci nous a permis accéder au changement sur le serveur sans que nous avons besoin de recharger la page. Le scénario d’utilisation : un utilisateur A ajouté un nouvel objet à vendre et utilisateur B qui se trouve sur la page de liste des Enchères voit automatiquement l’objet ajouté.
+​	Avec l'intégration des sockets web côté client, nous avons intégré de la réactivité dans l’application. Ceci nous a permis d'accéder au changement sur le serveur sans avoir besoin de recharger la page. Le scénario d’utilisation : un utilisateur A ajoute un nouvel objet à vendre et utilisateur B qui se trouve sur la page de liste des Enchères voit automatiquement l’objet ajouté.
 
 ### Configuration du projet
 
@@ -54,7 +54,7 @@ Intellij ultimate:
 
 ##### Via IDE : Eclipse
 
-###### Etape 1 : Lancement du serveur 
+###### Etape 1 : Lancement du serveur
 
 ​	On sélectionne le dossier du projet gringott-server et on exécute en tant que (Run as) Spring Boot App.
 
@@ -68,25 +68,25 @@ Intellij ultimate:
 
 ##### Via IDE : Intellij Ultimate
 
-###### Etape 1 : Lancement du serveur 
+###### Etape 1 : Lancement du serveur
 
-​	Pour lancer serveur sur IDE Intellij il faudra regarde en haut a gauche de tableau de bord et selectionner *GringottServerApplication* et appuye sur l'executer
+​	Pour lancer serveur sur IDE Intellij il faudra regarder en haut a gauche de tableau de bord et sélectionner *GringottServerApplication* puis appuyer sur l'exécuter
 
 ###### Etape 2 : Lancement du client
 
-​	Pour lancer serveur sur IDE Intellij il faudra regarde en haut a gauche de tableau de bord et selectionner *GringottClientApplication* et appuye sur l'executer
+​	Pour lancer serveur sur IDE Intellij il faudra regarder en haut à gauche du tableau de bord et sélectionner *GringottClientApplication* puis appuyer sur l'exécuter
 
 ###### Etape 3 : Interface web
 
-​	Une fois serveur et client lance pour accéder à l’IHM web il suffit d’ouvrir le navigateur web préféré sauf IE et accéder à IHM web via l’adresse suivante : http://localhost:3000/
+​	Une fois serveur et client lancés, pour accéder à l’IHM web il suffit d’ouvrir son navigateur web préféré sauf IE et accéder à l'IHM web via l’adresse suivante : http://localhost:3000/
 
 ##### Via Terminal
 
-​	Pour utiliser notre application, d’abord il faut lancer le serveur et puis le client. Pour cela il faut suivre les étapes suivantes.
+​	Pour utiliser notre application, d’abord il faut lancer le serveur puis le client. Pour cela il faut suivre les étapes suivantes.
 
-###### Etape 1 : Lancement du serveur 
+###### Etape 1 : Lancement du serveur
 
-​	Ouvrir le terminal et se mettre dans le dossier gringott-server et taper la commande suivante 
+​	Ouvrir le terminal et se mettre dans le dossier gringott-server et taper la commande suivante
 
 ```bash
 mvn spring-boot:run
@@ -94,7 +94,7 @@ mvn spring-boot:run
 
 ###### Etape 2 : Lancement du client
 
-ouvrir le terminal et se mettre dans le dossier gringott-client et taper la commande suivante 
+ouvrir le terminal et se mettre dans le dossier gringott-client et taper la commande suivante
 
 ```bash
 mvn spring-boot:run
@@ -102,15 +102,13 @@ mvn spring-boot:run
 
 ###### Etape 3 : Interface web
 
-​	Une fois serveur et client lance pour accéder à l’IHM web il suffit d’ouvrir le navigateur web préféré sauf IE et accéder à IHM web via l’adresse suivante : http://localhost:3000/
+​	Une fois serveur et client lancés, pour accéder à l’IHM web il suffit d’ouvrir son navigateur web préféré sauf IE et accéder à l'IHM web via l’adresse suivante : http://localhost:3000/
 
 #### Configurer Serveur chez client
 
-​	Par default si le client et serveur s'execute sur la meme machine, il y  a pas besoin de configurer le serveur chez client. Dans le cas contraire quand le client se trouve sur l'autre machine il faut modifier l'adress du serveur chez le client. Pour cela dans le fichier ```application.properties``` trouvant dans le dossier 
-```middleware\gringott-client\src\main\resources```  on doit modifier la premiere ligne en mettant l'adress IP du machine sur laquelle serveur tourne.
+​	Par défaut, si le client et le serveur s'exécutent sur la même machine, il n'y a pas besoin de configurer le serveur chez le client. Dans le cas contraire quand le client se trouve sur l'autre machine il faut modifier l'adresse du serveur chez le client. Pour cela dans le fichier ```application.properties``` se trouvant dans le dossier
+```middleware\gringott-client\src\main\resources```  on doit modifier la première ligne en mettant l'adresse IP de la machine sur laquelle le serveur tourne.
 
-#### Configurer plusieurs client sur la meme machine
+#### Configurer plusieurs client sur la même machine
 
-​	Par default, IHM web se trouve a l'adresse suivante : *http://localhost:3000*, mais nous avons la possibilite d'avoir plusieur client qui tourne sur la meme machin. Pour cela dans le fichier ```application.properties``` trouvant dans le dossier ```middleware\gringott-client\src\main\resources```  on modifie l'option *server.port* en le mettant à 0. Cette changement nous donne different *port* a l'execution de l'application client pour acceder a l'IHM. 
-
-​	Par default, IHM web se trouve a l'adresse suivante : *http://localhost:3000*, mais nous avons la possibilite d'avoir plusieur client qui tourne sur la meme machin. Pour cela dans le fichier ```application.properties``` trouvant dans le dossier ```middleware\gringott-client\src\main\resources```  on modifie l'option *server.port* en le mettant à 0. Cette changement nous donne different *port* a l'execution de l'application client pour acceder a l'IHM. 
+​	Par défaut, l'IHM web se trouve a l'adresse suivante : *http://localhost:3000*, mais nous avons la possibilité d'avoir plusieurs client qui tournent sur la même machine. Pour cela dans le fichier ```application.properties``` se trouvant dans le dossier ```middleware\gringott-client\src\main\resources```  on modifie l'option *server.port* en le mettant à 0. Ce changement nous donne uns *port* différent à l'exécution de l'application client pour accéder a l'IHM.
