@@ -119,4 +119,3 @@ buildNumber.properties
 
 
 # End of https://www.gitignore.io/api/maven,intellij
-gringott-client/src/main/resources/application.properties

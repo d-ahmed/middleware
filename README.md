@@ -2,13 +2,13 @@
 
 ###### M2 ALMA – 2018/2019 : Daniel AHMED, Pierre CAILLAUD, Demetre PHALAVANDISHVILI   
 
-## Critique des projets
+## Introduction
 
 ​	Dans le cadre du projet de l’unité d’enseignement Middleware, nous avons passé en revue deux projets effectués par des étudiants des années passées. Nous avons dû réaliser une critique de chacun de ces projets. Le but étant de déterminer les poins forts et les points faibles de chaque projet, ainsi que d’éventuelles pistes d’amélioration.
 
 ​	Nous avons ensuite modifié l’un de ces projets afin de l’améliorer en nous basant sur la critique précédemment effectuée. Après analyse, il nous a parut plus intéressant d’apporter des modifications au projet Gringott car il nous paraissait, à première vue, moins bien réalisé. Nous nous sommes par conséquent contentés de critiquer le projet Pay2bid sans le modifier.
 
-### Projet Pay2Bid
+## Projet Pay2Bid : Critique du projet
 
 ​	Dans l’ensemble, le projet est plutôt bien structuré. Les choix des noms de classes et méthodes sont pertinents et les méthodes sont commentées. Ce qui rend la compréhension du projet relativement aisée et rapide.
 
@@ -22,6 +22,10 @@
 
 ​	Pour conclure, le projet est plutôt solide du point de vue de sa conception, les quelques points négatifs sont essentiellement dus au nombre de fonctionnalités limité proposé par l’application.
 
+
+
+
+
 ## Projet Gringott : Evolution du projet
 
 ​	Nous avons corrigé ce qui ne nous semblait pas bien implémenté dans l'ancien projet gringott. Notamment la synchronisation qui était réalisée côté client au lieu d'être faite côté serveur. Nous avons identifié les problèmes posés par cette décision, en particulier au moment où deux utilisateurs essayaient de se connecter le serveur ne faisait pas la différence et enregistrait deux utilisateurs avec le même pseudo. De plus dans l'implémentation de départ nous avons la possibilité d’enrichir sans arrêt tant que l'enchère n'est pas fini. Nous avons corrigé cette fonctionnalité et dans notre version on peut enrichir que lorsqu' un autre utilisateur à renchérit.
@@ -34,19 +38,16 @@
 
 #### Pré-requis du projet
 
-Maven :  
-
+**Maven** :  
 - version : 3.5.4 ou ultérieur
 
-Eclipse:
-
+**Eclipse**:
 - Dans marketplace, installer Spring tool 4
 - Importer le projet
 - Activer les annotations processing
 - Avec le terminal dans le dossier racine du projet, il faut lancer mvn clean package
 
-Intellij ultimate:
-
+**Intellij ultimate:**
 - Importer le projet
 - Activer les annotations processing
 
@@ -102,13 +103,12 @@ mvn spring-boot:run
 
 ###### Etape 3 : Interface web
 
-​	Une fois serveur et client lancés, pour accéder à l’IHM web il suffit d’ouvrir son navigateur web préféré sauf IE et accéder à l'IHM web via l’adresse suivante : http://localhost:3000/
+​	Une fois serveur et client lancés, pour accéder à l’IHM web il suffit d’ouvrir son navigateur web préféré sauf IE et accéder à l'IHM web via l’adresse suivante : http://localhost:3000/.
 
 #### Configurer Serveur chez client
 
-​	Par défaut, si le client et le serveur s'exécutent sur la même machine, il n'y a pas besoin de configurer le serveur chez le client. Dans le cas contraire quand le client se trouve sur l'autre machine il faut modifier l'adresse du serveur chez le client. Pour cela dans le fichier ```application.properties``` se trouvant dans le dossier
-```middleware\gringott-client\src\main\resources```  on doit modifier la première ligne en mettant l'adresse IP de la machine sur laquelle le serveur tourne.
+​	Par défaut, si le client et le serveur s'exécutent sur la même machine, il n'y a pas besoin de configurer le serveur chez le client. Dans le cas contraire quand le client se trouve sur l'autre machine il faut modifier l'adresse du serveur chez le client. Pour cela dans le fichier ```application.properties``` se trouvant dans le dossier ```middleware\gringott-client\src\main\resources```  on doit modifier la première ligne en mettant l'adresse IP de la machine sur laquelle le serveur tourne.
 
 #### Configurer plusieurs client sur la même machine
 
-​	Par défaut, l'IHM web se trouve a l'adresse suivante : *http://localhost:3000*, mais nous avons la possibilité d'avoir plusieurs client qui tournent sur la même machine. Pour cela dans le fichier ```application.properties``` se trouvant dans le dossier ```middleware\gringott-client\src\main\resources```  on modifie l'option *server.port* en le mettant à 0. Ce changement nous donne uns *port* différent à l'exécution de l'application client pour accéder a l'IHM.
+​	Par défaut, l'IHM web se trouve a l'adresse suivante : *http://localhost:3000*, mais nous avons la possibilité d'avoir plusieurs client qui tournent sur la même machine. Pour cela dans le fichier ```application.properties``` se trouvant dans le dossier ```middleware\gringott-client\src\main\resources``` on modifie l'option *server.port* en le mettant à 0. Ce changement nous donne uns *port* différent à l'exécution de l'application client pour accéder a l'IHM.
